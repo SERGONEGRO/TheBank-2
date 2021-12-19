@@ -17,7 +17,7 @@
                 <TabItem.Header>
                     <TextBlock Text="Staff"/>
                 </TabItem.Header>
-                <ListView>
+                <ListView ItemsSource="{Binding AllUsers}">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="ID"/>
@@ -37,7 +37,7 @@
                 <TabItem.Header>
                     <TextBlock Text="Position"/>
                 </TabItem.Header>
-                <ListView>
+                <ListView ItemsSource="{Binding AllPositions}">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Name"/>
@@ -54,7 +54,7 @@
                 <TabItem.Header>
                     <TextBlock Text="Departments"/>
                 </TabItem.Header>
-                <ListView>
+                <ListView ItemsSource="{Binding AllDepartments}">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Name"/>
@@ -68,7 +68,7 @@
                 <TabItem.Header>
                     <TextBlock Text="Clients"/>
                 </TabItem.Header>
-                <ListView>
+                <ListView ItemsSource="{Binding AllClients}">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="ID"/>
@@ -86,7 +86,7 @@
                 <TabItem.Header>
                     <TextBlock Text="Deposits"/>
                 </TabItem.Header>
-                <ListView>
+                <ListView ItemsSource="{Binding AllDeposits}">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="ID"/>
@@ -103,6 +103,13 @@
                 </ListView>
             </TabItem>
         </TabControl>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Новый сотрудник" Command="{Binding}"/>
+            <Button Content="Новая позиция" Command="{Binding}"/>
+            <Button Content="Новый отдел" Command="{Binding}"/>
+            <Button Content="Новый клиент" Command="{Binding}"/>
+            <Button Content="Новый депозит" Command="{Binding}"/>
+        </StackPanel>
 
     </Grid>
 </Window>

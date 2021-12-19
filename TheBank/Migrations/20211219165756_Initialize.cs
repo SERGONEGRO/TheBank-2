@@ -8,7 +8,7 @@ namespace TheBank2.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Client",
+                name: "Clients",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -21,11 +21,11 @@ namespace TheBank2.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Client", x => x.Id);
+                    table.PrimaryKey("PK_Clients", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Department",
+                name: "Departments",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -34,11 +34,11 @@ namespace TheBank2.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Department", x => x.Id);
+                    table.PrimaryKey("PK_Departments", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Position",
+                name: "Positions",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -50,11 +50,11 @@ namespace TheBank2.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Position", x => x.Id);
+                    table.PrimaryKey("PK_Positions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Position_Department_DepartmentId",
+                        name: "FK_Positions_Departments_DepartmentId",
                         column: x => x.DepartmentId,
-                        principalTable: "Department",
+                        principalTable: "Departments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -77,15 +77,15 @@ namespace TheBank2.Migrations
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Users_Position_PositionId",
+                        name: "FK_Users_Positions_PositionId",
                         column: x => x.PositionId,
-                        principalTable: "Position",
+                        principalTable: "Positions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Deposit",
+                name: "Deposits",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -101,15 +101,15 @@ namespace TheBank2.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Deposit", x => x.Id);
+                    table.PrimaryKey("PK_Deposits", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Deposit_Client_ClientId",
+                        name: "FK_Deposits_Clients_ClientId",
                         column: x => x.ClientId,
-                        principalTable: "Client",
+                        principalTable: "Clients",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Deposit_Users_ResponsibleEmployeeId",
+                        name: "FK_Deposits_Users_ResponsibleEmployeeId",
                         column: x => x.ResponsibleEmployeeId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -117,18 +117,18 @@ namespace TheBank2.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Deposit_ClientId",
-                table: "Deposit",
+                name: "IX_Deposits_ClientId",
+                table: "Deposits",
                 column: "ClientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Deposit_ResponsibleEmployeeId",
-                table: "Deposit",
+                name: "IX_Deposits_ResponsibleEmployeeId",
+                table: "Deposits",
                 column: "ResponsibleEmployeeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Position_DepartmentId",
-                table: "Position",
+                name: "IX_Positions_DepartmentId",
+                table: "Positions",
                 column: "DepartmentId");
 
             migrationBuilder.CreateIndex(
@@ -140,19 +140,19 @@ namespace TheBank2.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Deposit");
+                name: "Deposits");
 
             migrationBuilder.DropTable(
-                name: "Client");
+                name: "Clients");
 
             migrationBuilder.DropTable(
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Position");
+                name: "Positions");
 
             migrationBuilder.DropTable(
-                name: "Department");
+                name: "Departments");
         }
     }
 }

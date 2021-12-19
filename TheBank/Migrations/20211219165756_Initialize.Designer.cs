@@ -10,7 +10,7 @@ using TheBank2.Data;
 namespace TheBank2.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20211219114625_Initialize")]
+    [Migration("20211219165756_Initialize")]
     partial class Initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,7 +45,7 @@ namespace TheBank2.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Client");
+                    b.ToTable("Clients");
                 });
 
             modelBuilder.Entity("TheBank2.Model.Department", b =>
@@ -60,7 +60,7 @@ namespace TheBank2.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Department");
+                    b.ToTable("Departments");
                 });
 
             modelBuilder.Entity("TheBank2.Model.Deposit", b =>
@@ -100,7 +100,7 @@ namespace TheBank2.Migrations
 
                     b.HasIndex("ResponsibleEmployeeId");
 
-                    b.ToTable("Deposit");
+                    b.ToTable("Deposits");
                 });
 
             modelBuilder.Entity("TheBank2.Model.Position", b =>
@@ -126,7 +126,7 @@ namespace TheBank2.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.ToTable("Position");
+                    b.ToTable("Positions");
                 });
 
             modelBuilder.Entity("TheBank2.Model.User", b =>
