@@ -13,7 +13,9 @@ namespace TheBank2.ViewModel
     class DataManageVM : INotifyPropertyChanged
     {
         #region СВОЙСТВА
-        //все отделы
+        /// <summary>
+        /// все отделы
+        /// </summary>
         private List<Department> allDepartments = DataWorker.GetAllDepartments();
         public List<Department> AllDepartments
         {
@@ -25,7 +27,9 @@ namespace TheBank2.ViewModel
             }
         }
 
-        //все позиции
+        /// <summary>
+        /// все позиции
+        /// </summary>
         private List<Position> allPositions = DataWorker.GetAllPositions();
         public List<Position> AllPositions
         {
@@ -37,7 +41,9 @@ namespace TheBank2.ViewModel
             }
         }
 
-        //все юзеры
+        /// <summary>
+        /// все юзеры
+        /// </summary>
         private List<User> allUsers = DataWorker.GetAllUsers();
         public List<User> AllUsers
         {
@@ -49,7 +55,9 @@ namespace TheBank2.ViewModel
             }
         }
 
-        //все клиенты
+        /// <summary>
+        /// все клиенты
+        /// </summary>
         private List<Client> allClients = DataWorker.GetAllClients();
         public List<Client> AllClients
         {
@@ -61,7 +69,9 @@ namespace TheBank2.ViewModel
             }
         }
 
-        //все депозиты
+        /// <summary>
+        /// все депозиты
+        /// </summary>
         private List<Deposit> allDeposits = DataWorker.GetAllDeposits();
         public List<Deposit> AllDeposits
         {
@@ -92,31 +102,45 @@ namespace TheBank2.ViewModel
         #endregion
 
         #region МЕТОДЫ ОТКРЫТИЯ ОКОН ДЛЯ ДОБАВЛЕНИЯ
-
+        /// <summary>
+        /// Открытие окна добавления департмента
+        /// </summary>
         private void OpenAddDepartmentWindowMethod()
         {
             AddNewDepartmentWindow newDepartmentWindow = new();
             SetCenterPositionAndOpen(newDepartmentWindow);
         }
 
+        /// <summary>
+        /// Открытие окна добавления позиции
+        /// </summary>
         private void OpenAddPositionWindowMethod()
         {
             AddNewPositionWindow newPositionWindow = new();
             SetCenterPositionAndOpen(newPositionWindow);
         }
 
+        /// <summary>
+        /// Открытие окна добавления пользователя
+        /// </summary>
         private void OpenAddUserWindowMethod()
         {
             AddNewUserWindow newUserWindow = new();
             SetCenterPositionAndOpen(newUserWindow);
         }
 
+        /// <summary>
+        /// Открытие окна добавления клиента
+        /// </summary>
         private void OpenAddClientWindowMethod()
         {
             AddNewClientWindow newClientWindow = new();
             SetCenterPositionAndOpen(newClientWindow);
         }
 
+        /// <summary>
+        /// Открытие окна добавления депозита
+        /// </summary>
         private void OpenAddDepositWindowMethod()
         {
             AddNewDepositWindow newDepositWindow = new();
@@ -137,30 +161,45 @@ namespace TheBank2.ViewModel
 
         #region МЕТОДЫ ОТКРЫТИЯ ОКОН ДЛЯ РЕДАКТИРОВАНИЯ
 
+        /// <summary>
+        /// Открытие окна редактирования департмента
+        /// </summary>
         private void OpenEditDepartmentWindowMethod()
         {
             EditDepartmentWindow editDepartmentWindow = new();
             SetCenterPositionAndOpen(editDepartmentWindow);
         }
 
+        /// <summary>
+        /// Открытие окна редактирования позиции
+        /// </summary>
         private void OpenEditPositionWindowMethod()
         {
             EditPositionWindow editPositionWindow = new();
             SetCenterPositionAndOpen(editPositionWindow);
         }
 
+        /// <summary>
+        /// Открытие окна редактирования пользователя
+        /// </summary>
         private void OpenEditUserWindowMethod()
         {
             EditUserWindow editUserWindow = new();
             SetCenterPositionAndOpen(editUserWindow);
         }
 
+        /// <summary>
+        /// Открытие окна редактирования клиента
+        /// </summary>
         private void OpenEditClientWindowMethod()
         {
             EditClientWindow editClientWindow = new();
             SetCenterPositionAndOpen(editClientWindow);
         }
 
+        /// <summary>
+        /// Открытие окна редактирования депозита
+        /// </summary>
         private void OpenEditDepositWindowMethod()
         {
             EditDepositWindow editDepositWindow = new();
