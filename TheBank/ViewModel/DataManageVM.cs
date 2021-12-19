@@ -168,9 +168,88 @@ namespace TheBank2.ViewModel
         }
         #endregion
 
-        #region КОМАНДЫ ОТКРЫТИЯ ОКОН
+        #region КОМАНДЫ ОТКРЫТИЯ ОКОН СОЗДАНИЯ
 
-        
+        /// <summary>
+        /// Команда открытия окна для создания нового департмента
+        /// </summary>
+        private RelayCommand openAddNewDepartmentWnd;
+        public RelayCommand OpenAddNewDepartmentWnd
+        {
+            get
+            {
+                return openAddNewDepartmentWnd ?? new RelayCommand( obj =>
+                {
+                    OpenAddDepartmentWindowMethod();
+                }
+                    );
+            }
+        }
+
+        /// <summary>
+        /// Команда открытия окна для создания новой позиции
+        /// </summary>
+        private RelayCommand openAddNewPositionWnd;
+        public RelayCommand OpenAddNewPositionWnd
+        {
+            get
+            {
+                return openAddNewPositionWnd ?? new RelayCommand(obj =>
+                {
+                    OpenAddPositionWindowMethod();
+                }
+                    );
+            }
+        }
+
+        /// <summary>
+        /// Команда открытия окна для создания нового юзера
+        /// </summary>
+        private RelayCommand openAddNewUserWnd;
+        public RelayCommand OpenAddNewUserWnd
+        {
+            get
+            {
+                return openAddNewUserWnd ?? new RelayCommand(obj =>
+                {
+                    OpenAddUserWindowMethod();
+                }
+                    );
+            }
+        }
+
+        /// <summary>
+        /// Команда открытия окна для создания нового клиента
+        /// </summary>
+        private RelayCommand openAddNewClientWnd;
+        public RelayCommand OpenAddNewClientWnd
+        {
+            get
+            {
+                return openAddNewClientWnd ?? new RelayCommand(obj =>
+                {
+                    OpenAddClientWindowMethod();
+                }
+                    );
+            }
+        }
+
+        /// <summary>
+        /// Команда открытия окна для создания нового депозита
+        /// </summary>
+        private RelayCommand openAddNewDepositWnd;
+        public RelayCommand OpenAddNewDepositWnd
+        {
+            get
+            {
+                return openAddNewDepositWnd ?? new RelayCommand(obj =>
+                {
+                    OpenAddDepositWindowMethod();
+                }
+                    );
+            }
+        }
+
         #endregion
     }
 }

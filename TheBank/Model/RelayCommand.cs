@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace TheBank2.Models
+namespace TheBank2.Model
 {
     public class RelayCommand : ICommand
     {
