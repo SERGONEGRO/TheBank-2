@@ -75,6 +75,62 @@ namespace TheBank2.Model
                 return result;
             }
         }
+        /// <summary>
+        /// Получение позиции по id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static Position GetPositionById( int id)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                Position pos = db.Positions.FirstOrDefault(p => p.Id == id);
+                return pos;
+            }
+        }
+
+        /// <summary>
+        /// Получение департмента по id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static Department GetDepartmentById(int id)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                Department dep = db.Departments.FirstOrDefault(d => d.Id == id);
+                return dep;
+            }
+        }
+        /// <summary>
+        /// Получение пользователей по id позиции
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static List<User> GetAllUserstByPositionId(int id)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                List<User> users = (from user in GetAllUsers() where user.PositionId == id select user).ToList();
+                return users;
+            }
+        }
+        /// <summary>
+        /// Получение позиций по id департамента
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static List<Position> GetAllPositionsByDepartmentId(int id)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                List<Position> positions = (from position in GetAllPositions() where position.DepartmentId == id select position).ToList();
+                return positions;
+            }
+
+        }
+
+
         #endregion
 
         #region МЕТОДЫ СОЗДАНИЯ
@@ -152,7 +208,7 @@ namespace TheBank2.Model
                 bool checkIsExist = db.Users.Any(el => el.Name == name && el.SurName == surName && el.Position == position);
                 if (!checkIsExist)
                 {
-                    User newUser = new User
+                    User newUser = new()
                     {
                         Name = name,
                         SurName = surName,
@@ -186,7 +242,7 @@ namespace TheBank2.Model
                 bool checkIsExist = db.Clients.Any(el => el.Name == name && el.SurName == surName);
                 if (!checkIsExist)
                 {
-                    Client newClient = new Client
+                    Client newClient = new()
                     {
                         Name = name,
                         SurName = surName,
@@ -217,10 +273,10 @@ namespace TheBank2.Model
             DateTime dateOfStart, int monthsCount, User responsibleEmployee)
         {
             string result = "Уже существует";
-            using (ApplicationContext db = new ApplicationContext())
+            using (ApplicationContext db = new())
             {
                 //  НЕ проверяем, суще ли Депозит
-                Deposit newDeposit = new Deposit
+                Deposit newDeposit = new()
                 {
                     Client  = client,
                     DepositPercent  = depositPercent,

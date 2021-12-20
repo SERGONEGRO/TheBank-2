@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,6 +34,14 @@ namespace TheBank2.Model
         /// <returns></returns>
         //public abstract float GetWage();
 
+        [NotMapped]
+        public Position UserPosition
+        {
+            get
+            {
+                return DataWorker.GetPositionById(PositionId);
+            }
+        }
 
         #endregion
     }

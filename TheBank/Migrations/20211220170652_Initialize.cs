@@ -90,14 +90,14 @@ namespace TheBank2.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ClientId = table.Column<int>(type: "int", nullable: true),
+                    ClientId = table.Column<int>(type: "int", nullable: false),
                     DepositPercent = table.Column<double>(type: "float", nullable: false),
                     StartSum = table.Column<int>(type: "int", nullable: false),
                     IsCapitalized = table.Column<bool>(type: "bit", nullable: false),
                     CurrentSum = table.Column<double>(type: "float", nullable: false),
                     DateOfStart = table.Column<DateTime>(type: "datetime2", nullable: false),
                     MonthsCount = table.Column<int>(type: "int", nullable: false),
-                    ResponsibleEmployeeId = table.Column<int>(type: "int", nullable: true)
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -107,13 +107,13 @@ namespace TheBank2.Migrations
                         column: x => x.ClientId,
                         principalTable: "Clients",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Deposits_Users_ResponsibleEmployeeId",
-                        column: x => x.ResponsibleEmployeeId,
+                        name: "FK_Deposits_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -122,9 +122,9 @@ namespace TheBank2.Migrations
                 column: "ClientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Deposits_ResponsibleEmployeeId",
+                name: "IX_Deposits_UserId",
                 table: "Deposits",
-                column: "ResponsibleEmployeeId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Positions_DepartmentId",

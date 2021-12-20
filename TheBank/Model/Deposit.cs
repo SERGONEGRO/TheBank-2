@@ -13,10 +13,11 @@ namespace TheBank2.Model
         /// </summary>
         public int Id { get; set; }
 
+        public int ClientId { get; set; }
         /// <summary>
         /// Вкладчик
         /// </summary>
-        public Client Client { get; set; }
+        public virtual Client Client { get; set; }
 
         /// <summary>
         /// Процент вклада
@@ -60,10 +61,11 @@ namespace TheBank2.Model
             }
         }
 
+        public int UserId { get; set; }
         /// <summary>
         /// Ответственный сотрудник
         /// </summary>
-        public User ResponsibleEmployee { get; set; }
+        public virtual User ResponsibleEmployee { get; set; }
     }
 }
 

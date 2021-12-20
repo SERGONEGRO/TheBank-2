@@ -68,7 +68,7 @@ namespace TheBank2.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ClientId")
+                    b.Property<int>("ClientId")
                         .HasColumnType("int");
 
                     b.Property<double>("CurrentSum")
@@ -86,17 +86,17 @@ namespace TheBank2.Migrations
                     b.Property<int>("MonthsCount")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ResponsibleEmployeeId")
+                    b.Property<int>("StartSum")
                         .HasColumnType("int");
 
-                    b.Property<int>("StartSum")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId");
 
-                    b.HasIndex("ResponsibleEmployeeId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Deposits");
                 });
@@ -166,11 +166,15 @@ namespace TheBank2.Migrations
                 {
                     b.HasOne("TheBank2.Model.Client", "Client")
                         .WithMany()
-                        .HasForeignKey("ClientId");
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("TheBank2.Model.User", "ResponsibleEmployee")
                         .WithMany()
-                        .HasForeignKey("ResponsibleEmployeeId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Client");
 
