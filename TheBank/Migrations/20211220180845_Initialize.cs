@@ -97,7 +97,7 @@ namespace TheBank2.Migrations
                     CurrentSum = table.Column<double>(type: "float", nullable: false),
                     DateOfStart = table.Column<DateTime>(type: "datetime2", nullable: false),
                     MonthsCount = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    ResponsibleEmployeeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -109,8 +109,8 @@ namespace TheBank2.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Deposits_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Deposits_Users_ResponsibleEmployeeId",
+                        column: x => x.ResponsibleEmployeeId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -122,9 +122,9 @@ namespace TheBank2.Migrations
                 column: "ClientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Deposits_UserId",
+                name: "IX_Deposits_ResponsibleEmployeeId",
                 table: "Deposits",
-                column: "UserId");
+                column: "ResponsibleEmployeeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Positions_DepartmentId",

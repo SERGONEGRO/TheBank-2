@@ -113,7 +113,7 @@
                             <GridViewColumn Header="ID"
                                             DisplayMemberBinding="{Binding Path=Id}"/>
                             <GridViewColumn Header="Client"
-                                            DisplayMemberBinding="{Binding Path=Client}"/>
+                                            DisplayMemberBinding="{Binding Path=DepositClient.Name}"/>
                             <GridViewColumn Header="DepositPercent"
                                             DisplayMemberBinding="{Binding Path=DepositPercent}"/>
                             <GridViewColumn Header="StartSum"
@@ -127,7 +127,7 @@
                             <GridViewColumn Header="MonthCount"
                                             DisplayMemberBinding="{Binding Path=MonthsCount}"/>
                             <GridViewColumn Header="ResponsiblePerson"
-                                            DisplayMemberBinding="{Binding Path=ResponsiblePerson}"/>
+                                            DisplayMemberBinding="{Binding Path=DepositUser.Name}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>

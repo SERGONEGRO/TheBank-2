@@ -473,7 +473,7 @@ namespace TheBank2.ViewModel
                     {
                         SetRedBlockControl(wnd, "PhoneBlock");
                     }
-                    if (UserDateOfBirth == DateTime.MinValue)
+                    if (ClientDateOfBirth == DateTime.MinValue)
                     {
                         SetRedBlockControl(wnd, "DateOfBirthDP");
                     }
@@ -484,7 +484,7 @@ namespace TheBank2.ViewModel
                     }
                     else
                     {
-                        resultStr = DataWorker.CreateClient(ClientName, ClientSurName, UserPhone, ClientIsVIP, UserDateOfBirth);
+                        resultStr = DataWorker.CreateClient(ClientName, ClientSurName, ClientPhone, ClientIsVIP, ClientDateOfBirth);
                         UpdateAllDataView();
                         ShowMessageToUser(resultStr);
                         SetNullValuesToProperties();

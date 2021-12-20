@@ -10,7 +10,7 @@ using TheBank2.Data;
 namespace TheBank2.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20211220170652_Initialize")]
+    [Migration("20211220180845_Initialize")]
     partial class Initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -88,17 +88,17 @@ namespace TheBank2.Migrations
                     b.Property<int>("MonthsCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("StartSum")
+                    b.Property<int>("ResponsibleEmployeeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("StartSum")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("ResponsibleEmployeeId");
 
                     b.ToTable("Deposits");
                 });
@@ -174,7 +174,7 @@ namespace TheBank2.Migrations
 
                     b.HasOne("TheBank2.Model.User", "ResponsibleEmployee")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("ResponsibleEmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

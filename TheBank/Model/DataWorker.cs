@@ -9,7 +9,7 @@ namespace TheBank2.Model
 {
     class DataWorker
     {
-        #region МЕТОДЫ, ВОЗВРАЩАЮЩИЕ ЗНАЧЕНИЯe
+        #region МЕТОДЫ, ВОЗВРАЩАЮЩИЕ ЗНАЧЕНИЯ
 
         /// <summary>
         /// Получить все департаменты
@@ -75,6 +75,7 @@ namespace TheBank2.Model
                 return result;
             }
         }
+
         /// <summary>
         /// Получение позиции по id
         /// </summary>
@@ -129,7 +130,33 @@ namespace TheBank2.Model
             }
 
         }
+        /// <summary>
+        /// Поулчение ответственного сотрудника по id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static User GetUserByResponsibleEmployeeId(int id)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                User user = db.Users.FirstOrDefault(d => d.Id == id);
+                return user;
+            }
+        }
 
+        /// <summary>
+        /// Получение клиента по id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static Client GetClientByClientId(int id)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                Client client = db.Clients.FirstOrDefault(d => d.Id == id);
+                return client;
+            }
+        }
 
         #endregion
 
@@ -278,13 +305,13 @@ namespace TheBank2.Model
                 //  НЕ проверяем, суще ли Депозит
                 Deposit newDeposit = new()
                 {
-                    Client  = client,
+                    ClientId  = client.Id,
                     DepositPercent  = depositPercent,
                     StartSum = startSum,
                     IsCapitalized = isCapitalized,
                     DateOfStart = dateOfStart,
                     MonthsCount = monthsCount,
-                    ResponsibleEmployee = responsibleEmployee
+                    ResponsibleEmployeeId = responsibleEmployee.Id
                 };
                 db.Deposits.Add(newDeposit);
                 db.SaveChanges();

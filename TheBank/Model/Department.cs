@@ -13,7 +13,9 @@ namespace TheBank2.Model
         public string Name { get; set; }
         public List<Position> Positions { get; set; }
 
-
+        /// <summary>
+        /// свойство ищущее список позиций, привязанных к департаменту
+        /// </summary>
         [NotMapped]
         public List<Position> DepartmentPositions
         {

@@ -86,17 +86,17 @@ namespace TheBank2.Migrations
                     b.Property<int>("MonthsCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("StartSum")
+                    b.Property<int>("ResponsibleEmployeeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("StartSum")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("ResponsibleEmployeeId");
 
                     b.ToTable("Deposits");
                 });
@@ -172,7 +172,7 @@ namespace TheBank2.Migrations
 
                     b.HasOne("TheBank2.Model.User", "ResponsibleEmployee")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("ResponsibleEmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

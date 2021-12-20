@@ -29,11 +29,8 @@ namespace TheBank2.Model
         public int Hours { get; set; }
 
         /// <summary>
-        /// Производит расчет заработной платы и возвращает ее
+        /// Получение позиции для данного сотрудника
         /// </summary>
-        /// <returns></returns>
-        //public abstract float GetWage();
-
         [NotMapped]
         public Position UserPosition
         {

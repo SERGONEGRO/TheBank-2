@@ -23,6 +23,9 @@ namespace TheBank2.Model
         public int DepartmentId { get; set; }
         public virtual Department Department { get; set; }
 
+        /// <summary>
+        /// свойство ищущее департмент, к которому привязана позиция
+        /// </summary>
         [NotMapped]
         public Department PositionDepartment
         {
@@ -31,7 +34,9 @@ namespace TheBank2.Model
                 return DataWorker.GetDepartmentById(DepartmentId);
             }
         }
-
+        /// <summary>
+        /// свойство ищущее юзеров, привязанных к позиции
+        /// </summary>
         [NotMapped]
         public List<User> PositionUsers
         {

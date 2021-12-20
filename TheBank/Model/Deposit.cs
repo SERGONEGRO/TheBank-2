@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -61,11 +62,34 @@ namespace TheBank2.Model
             }
         }
 
-        public int UserId { get; set; }
+        public int ResponsibleEmployeeId { get; set; }
         /// <summary>
         /// Ответственный сотрудник
         /// </summary>
         public virtual User ResponsibleEmployee { get; set; }
+
+        /// <summary>
+        /// свойство ищущее ответственного сотрудника, привязанного к данному депозиту
+        /// </summary>
+        [NotMapped]
+        public User DepositUser
+        {
+            get
+            {
+                return DataWorker.GetUserByResponsibleEmployeeId(ResponsibleEmployeeId);
+            }
+        }
+        /// <summary>
+        /// свойство ищущее клиента данного депозита
+        /// </summary>
+        [NotMapped]
+        public Client DepositClient
+        {
+            get
+            {
+                return DataWorker.GetClientByClientId(ClientId);
+            }
+        }
     }
 }
 
