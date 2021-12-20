@@ -17,17 +17,25 @@
                 <TabItem.Header>
                     <TextBlock Text="Staff"/>
                 </TabItem.Header>
-                <ListView ItemsSource="{Binding AllUsers}">
+                <ListView x:Name="ViewAllUsers" ItemsSource="{Binding AllUsers}">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="ID"/>
-                            <GridViewColumn Header="Name"/>
-                            <GridViewColumn Header="SurName"/>
-                            <GridViewColumn Header="PhoneName"/>
-                            <GridViewColumn Header="Salary"/>
-                            <GridViewColumn Header="Age"/>
-                            <GridViewColumn Header="Position"/>
-                            <GridViewColumn Header="Department"/>
+                            <GridViewColumn Header="ID"
+                                            DisplayMemberBinding="{Binding Path=Id}"/>
+                            <GridViewColumn Header="Name"
+                                            DisplayMemberBinding="{Binding Path=Name}"/>
+                            <GridViewColumn Header="SurName"
+                                            DisplayMemberBinding="{Binding Path=SurName}"/>
+                            <GridViewColumn Header="Phone"
+                                            DisplayMemberBinding="{Binding Path=Phone}"/>
+                            <GridViewColumn Header="Age"
+                                            DisplayMemberBinding="{Binding Path=Age}"/>
+                            <GridViewColumn Header="Position"
+                                            DisplayMemberBinding="{Binding Path=Position.Name}"/>
+                            <GridViewColumn Header="Salary"
+                                            DisplayMemberBinding="{Binding Path=Position.Salary}"/>
+                            <GridViewColumn Header="Department"
+                                            DisplayMemberBinding="{Binding Path=Position.Department.Name}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
@@ -37,14 +45,19 @@
                 <TabItem.Header>
                     <TextBlock Text="Position"/>
                 </TabItem.Header>
-                <ListView ItemsSource="{Binding AllPositions}">
+                <ListView x:Name="ViewAllPositions" ItemsSource="{Binding AllPositions}">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Name"/>
-                            <GridViewColumn Header="Rate"/>
-                            <GridViewColumn Header="Count of staffs"/>
-                            <GridViewColumn Header="Max number"/>
-                            <GridViewColumn Header="Department"/>
+                            <GridViewColumn Header="Name"
+                                            DisplayMemberBinding="{Binding Path=Name}"/>
+                            <GridViewColumn Header="Salary"
+                                            DisplayMemberBinding="{Binding Path=Salary}"/>
+                            <GridViewColumn Header="Count of staffs"
+                                            DisplayMemberBinding="{Binding Path=Users.Count}"/>
+                            <GridViewColumn Header="Max number"
+                                            DisplayMemberBinding="{Binding Path=MaxNumber}"/>
+                            <GridViewColumn Header="Department"
+                                            DisplayMemberBinding="{Binding Path=Department.Name}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
@@ -54,11 +67,13 @@
                 <TabItem.Header>
                     <TextBlock Text="Departments"/>
                 </TabItem.Header>
-                <ListView ItemsSource="{Binding AllDepartments}">
+                <ListView x:Name="ViewAllDepartments" ItemsSource="{Binding AllDepartments}">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Name"/>
-                            <GridViewColumn Header="Count of positions"/>
+                            <GridViewColumn Header="Name"
+                                            DisplayMemberBinding="{Binding Path=Name}"/>
+                            <GridViewColumn Header="Count of positions"
+                                            DisplayMemberBinding="{Binding Path=Positions.Count}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
@@ -68,15 +83,21 @@
                 <TabItem.Header>
                     <TextBlock Text="Clients"/>
                 </TabItem.Header>
-                <ListView ItemsSource="{Binding AllClients}">
+                <ListView x:Name="ViewAllClients" ItemsSource="{Binding AllClients}">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="ID"/>
-                            <GridViewColumn Header="Name"/>
-                            <GridViewColumn Header="SurName"/>
-                            <GridViewColumn Header="PhoneName"/>
-                            <GridViewColumn Header="VipStatus"/>
-                            <GridViewColumn Header="Age"/>
+                            <GridViewColumn Header="ID"
+                                            DisplayMemberBinding="{Binding Path=Id}"/>
+                            <GridViewColumn Header="Name"
+                                            DisplayMemberBinding="{Binding Path=Name}"/>
+                            <GridViewColumn Header="SurName"
+                                            DisplayMemberBinding="{Binding Path=SurName}"/>
+                            <GridViewColumn Header="Phone"
+                                            DisplayMemberBinding="{Binding Path=Phone}"/>
+                            <GridViewColumn Header="VipStatus"
+                                            DisplayMemberBinding="{Binding Path=IsVIP}"/>
+                            <GridViewColumn Header="Age"
+                                            DisplayMemberBinding="{Binding Path=Age}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
@@ -86,18 +107,27 @@
                 <TabItem.Header>
                     <TextBlock Text="Deposits"/>
                 </TabItem.Header>
-                <ListView ItemsSource="{Binding AllDeposits}">
+                <ListView x:Name="ViewAllDeposits" ItemsSource="{Binding AllDeposits}">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="ID"/>
-                            <GridViewColumn Header="Client"/>
-                            <GridViewColumn Header="DepositPercent"/>
-                            <GridViewColumn Header="StartSum"/>
-                            <GridViewColumn Header="IsCapitalized"/>
-                            <GridViewColumn Header="CurrentSum"/>
-                            <GridViewColumn Header="DateOfStart"/>
-                            <GridViewColumn Header="MonthCount"/>
-                            <GridViewColumn Header="ResponsiblePerson"/>
+                            <GridViewColumn Header="ID"
+                                            DisplayMemberBinding="{Binding Path=Id}"/>
+                            <GridViewColumn Header="Client"
+                                            DisplayMemberBinding="{Binding Path=Client}"/>
+                            <GridViewColumn Header="DepositPercent"
+                                            DisplayMemberBinding="{Binding Path=DepositPercent}"/>
+                            <GridViewColumn Header="StartSum"
+                                            DisplayMemberBinding="{Binding Path=StartSum}"/>
+                            <GridViewColumn Header="IsCapitalized"
+                                            DisplayMemberBinding="{Binding Path=IsCapitalized}"/>
+                            <GridViewColumn Header="CurrentSum"
+                                            DisplayMemberBinding="{Binding Path=CurrentSum}"/>
+                            <GridViewColumn Header="DateOfStart"
+                                            DisplayMemberBinding="{Binding Path=DateOfStart}"/>
+                            <GridViewColumn Header="MonthCount"
+                                            DisplayMemberBinding="{Binding Path=MonthsCount}"/>
+                            <GridViewColumn Header="ResponsiblePerson"
+                                            DisplayMemberBinding="{Binding Path=ResponsiblePerson}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
