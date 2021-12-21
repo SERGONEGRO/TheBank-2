@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TheBank2.Model
 {
-    class Person
+    public class Person
     {
 
         /// <summary>

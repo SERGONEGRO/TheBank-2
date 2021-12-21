@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TheBank2.Model
 {
-    class Department
+    public class Department
     {
         public int Id { get; set; }
         public string Name { get; set; }

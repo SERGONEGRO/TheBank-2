@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TheBank2.Model
 {
-    class Deposit
+    public class Deposit
     {
         /// <summary>
         /// id

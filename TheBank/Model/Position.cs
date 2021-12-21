@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TheBank2.Model
 {
-    class Position
+    public class Position
     {
         /// <summary>
         /// id

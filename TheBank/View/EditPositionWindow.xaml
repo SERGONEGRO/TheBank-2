@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TheBank2.View"
         mc:Ignorable="d"
-        Title="AddNewPositionWindow" Height="300" Width="300">
+        Title="EditNewPositionWindow" Height="300" Width="300"
+        Name="EditPositionWnd">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -16,14 +17,18 @@
                     VerticalAlignment="Center"
                     Width="200">
             <TextBlock Text="New Name"/>
-            <TextBox Text=""/>
+            <TextBox Text="{Binding PositionName}"/>
             <TextBlock Text="New Salary"/>
-            <TextBox Text=""/>
+            <TextBox PreviewTextInput="PreviewTextInput" Text="{Binding PositionSalary}"/>
             <TextBlock Text="New Max of vacancies"/>
-            <TextBox Text=""/>
-            <TextBlock Text="New Rate"/>
-            <ComboBox/>
+            <TextBox PreviewTextInput="PreviewTextInput" Text="{Binding PositionMaxNumber}"/>
+            <TextBlock Text="Department"/>
+            <ComboBox ItemsSource="{Binding AllDepartments}"
+                      DisplayMemberPath="Name"
+                      SelectedItem="{Binding PositionDepartment}"/>
         </StackPanel>
-        <Button Grid.Row="1" Content="Edit Position"/>
+        <Button Grid.Row="1" Content="Edit Position"
+                Command="{Binding EditPosition}"
+                CommandParameter="{Binding ElementName=EditPositionWnd}"/>
     </Grid>
 </Window>

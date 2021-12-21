@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TheBank2.View"
         mc:Ignorable="d"
-        Title="AddNewUserWindow" Height="500" Width="300">
+        Title="AddNewUserWindow" Height="500" Width="300"
+        Name="EditUserWnd">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -16,18 +17,28 @@
                     VerticalAlignment="Center"
                     Width="200">
             <TextBlock Text="New Name"/>
-            <TextBox Text=""/>
+            <TextBox Text="{Binding UserName}"/>
             <TextBlock Text="New SurName"/>
-            <TextBox Text=""/>
+            <TextBox Text="{Binding UserSurName}"/>
             <TextBlock Text="New Phone"/>
-            <TextBox Text=""/>
-            <TextBlock Text="New Age"/>
-            <TextBox Text=""/>
+            <TextBox>
+                <TextBox.Text>
+                    <Binding Path="UserPhone">
+                        <Binding.ValidationRules>
+                            <ExceptionValidationRule/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <TextBlock Text="New Date of Birth"/>
+            <DatePicker SelectedDate="{Binding UserDateOfBirth}"/>
             <TextBlock Text="New Position"/>
-            <ComboBox/>
-            <TextBlock Text="New Department"/>
-            <ComboBox/>
+            <ComboBox ItemsSource="{Binding AllPositions}"
+                      DisplayMemberPath="Name"
+                      SelectedItem="{Binding UserPosition}"/>
         </StackPanel>
-        <Button Grid.Row="1" Content="Edit Staff"/>
+        <Button Grid.Row="1" Content="Edit Staff"
+                Command="{Binding EditUser}"
+                CommandParameter="{Binding ElementName=EditUserWnd}"/>
     </Grid>
 </Window>

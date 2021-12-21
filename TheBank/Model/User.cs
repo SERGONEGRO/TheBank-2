@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TheBank2.Model
 {
-    class User:Person
+    public class User:Person
     {
         #region Свойства
         /// <summary>

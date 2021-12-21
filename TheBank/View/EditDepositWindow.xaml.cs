@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-
+using TheBank2.Model;
+using TheBank2.ViewModel;
 namespace TheBank2.View
 {
     /// <summary>
@@ -19,9 +9,23 @@ namespace TheBank2.View
     /// </summary>
     public partial class EditDepositWindow : Window
     {
-        public EditDepositWindow()
+        public EditDepositWindow(Deposit depositToEdit)
         {
             InitializeComponent();
+            DataContext = new DataManageVM();
+            DataManageVM.SelectedDeposit = depositToEdit;
+            DataManageVM.DepositClient = depositToEdit.DepositClient;
+            DataManageVM.DepositStartSum = depositToEdit.StartSum;
+            DataManageVM.DepositPercent = depositToEdit.DepositPercent;
+            DataManageVM.DepositIsCapitalized = depositToEdit.IsCapitalized;
+            DataManageVM.DepositDateOfStart = depositToEdit.DateOfStart;
+            DataManageVM.DepositMonthsCount = depositToEdit.MonthsCount;
+            DataManageVM.DepositResponsibleEmployee = depositToEdit.ResponsibleEmployee;
+        }
+        private void PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
     }
 }

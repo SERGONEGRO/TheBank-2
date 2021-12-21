@@ -17,40 +17,50 @@ namespace TheBank2.ViewModel
 
         #region СВОЙСТВА
         #region СВОЙСТВА ДЛЯ ДЕПАРТАМЕНТА
-        public string DepartmentName { get; set; }
+        public static string DepartmentName { get; set; }
         #endregion
 
         #region СВОЙСТВА ДЛЯ ПОЗИЦИИ
-        public string PositionName { get; set; }
-        public int PositionSalary { get; set; }
-        public int PositionMaxNumber { get; set; }
-        public Department PositionDepartment { get; set; }
+        public static string PositionName { get; set; }
+        public static decimal PositionSalary { get; set; }
+        public static int PositionMaxNumber { get; set; }
+        public static Department PositionDepartment { get; set; }
         #endregion
 
         #region СВОЙСТВА ДЛЯ ЮЗЕРА
-        public string UserName { get; set; }
-        public string UserSurName { get; set; }
-        public string UserPhone { get; set; }
-        public DateTime UserDateOfBirth { get; set; }
-        public Position UserPosition { get; set; }
+        public static string UserName { get; set; }
+        public static string UserSurName { get; set; }
+        public static string UserPhone { get; set; }
+        public static DateTime UserDateOfBirth { get; set; }
+        public static Position UserPosition { get; set; }
         #endregion
 
         #region СВОЙСТВА ДЛЯ КЛИЕНТА
-        public string ClientName { get; set; }
-        public string ClientSurName { get; set; }
-        public string ClientPhone { get; set; }
-        public DateTime ClientDateOfBirth { get; set; }
-        public bool ClientIsVIP{ get; set; }
+        public static string ClientName { get; set; }
+        public static string ClientSurName { get; set; }
+        public static string ClientPhone { get; set; }
+        public static DateTime ClientDateOfBirth { get; set; }
+        public static bool ClientIsVIP { get; set; }
         #endregion
 
         #region СВОЙСТВА ДЛЯ ДЕПОЗИТА
-        public Client DepositClient { get; set; }
-        public double DepositPercent { get; set; }
-        public int DepositStartSum { get; set; }
-        public bool DepositIsCapitalized { get; set; }
-        public User DepositResponsibleEmployee { get; set; }
-        public DateTime DepositDateOfStart { get; set; }
-        public int DepositMonthsCount { get; set; }
+        public static Client DepositClient { get; set; }
+        public static double DepositPercent { get; set; }
+        public static int DepositStartSum { get; set; }
+        public static bool DepositIsCapitalized { get; set; }
+        public static User DepositResponsibleEmployee { get; set; }
+        public static DateTime DepositDateOfStart { get; set; }
+        public static int DepositMonthsCount { get; set; }
+        #endregion
+
+        #region СВОЙСТВА ДЛЯ ВЫДЕЛЕННЫХ ЭЛЕМЕНТОВ
+
+        public TabItem SelectedTabItem { get; set; }
+        public static Position SelectedPosition { get; set; }
+        public static User SelectedUser { get; set; }
+        public static Department SelectedDepartment { get; set; }
+        public static Client SelectedClient { get; set; }
+        public static Deposit SelectedDeposit { get; set; }
         #endregion
 
         /// <summary>
@@ -204,45 +214,45 @@ namespace TheBank2.ViewModel
         /// <summary>
         /// Открытие окна редактирования департмента
         /// </summary>
-        private void OpenEditDepartmentWindowMethod()
+        private void OpenEditDepartmentWindowMethod(Department department)
         {
-            EditDepartmentWindow editDepartmentWindow = new();
+            EditDepartmentWindow editDepartmentWindow = new(department);
             SetCenterPositionAndOpen(editDepartmentWindow);
         }
 
         /// <summary>
         /// Открытие окна редактирования позиции
         /// </summary>
-        private void OpenEditPositionWindowMethod()
+        private void OpenEditPositionWindowMethod(Position position)
         {
-            EditPositionWindow editPositionWindow = new();
+            EditPositionWindow editPositionWindow = new(position);
             SetCenterPositionAndOpen(editPositionWindow);
         }
 
         /// <summary>
         /// Открытие окна редактирования пользователя
         /// </summary>
-        private void OpenEditUserWindowMethod()
+        private void OpenEditUserWindowMethod(User user)
         {
-            EditUserWindow editUserWindow = new();
+            EditUserWindow editUserWindow = new(user);
             SetCenterPositionAndOpen(editUserWindow);
         }
 
         /// <summary>
         /// Открытие окна редактирования клиента
         /// </summary>
-        private void OpenEditClientWindowMethod()
+        private void OpenEditClientWindowMethod(Client client)
         {
-            EditClientWindow editClientWindow = new();
+            EditClientWindow editClientWindow = new(client);
             SetCenterPositionAndOpen(editClientWindow);
         }
 
         /// <summary>
         /// Открытие окна редактирования депозита
         /// </summary>
-        private void OpenEditDepositWindowMethod()
+        private void OpenEditDepositWindowMethod(Deposit deposit)
         {
-            EditDepositWindow editDepositWindow = new();
+            EditDepositWindow editDepositWindow = new(deposit);
             SetCenterPositionAndOpen(editDepositWindow);
         }
         #endregion
@@ -404,9 +414,9 @@ namespace TheBank2.ViewModel
             }
         }
 
-             /// <summary>
-             /// Добавление юзера
-             /// </summary>
+        /// <summary>
+        /// Добавление юзера
+        /// </summary>
         private RelayCommand addNewUser;
         public RelayCommand AddNewUser
         {
@@ -478,7 +488,7 @@ namespace TheBank2.ViewModel
                         SetRedBlockControl(wnd, "DateOfBirthDP");
                     }
                     RadioButton rdtn = wnd.FindName("YesVIP") as RadioButton;
-                    if (rdtn.IsChecked==true)
+                    if (rdtn.IsChecked == true)
                     {
                         ClientIsVIP = true;
                     }
@@ -550,6 +560,234 @@ namespace TheBank2.ViewModel
         }
 
 
+        #endregion
+
+        #region КОМАНДЫ ОТКРЫТИЯ ОКОН ДЛЯ РЕДАКТИРОВАНИЯ
+
+        private RelayCommand openEditItemWnd;
+        public RelayCommand OpenEditItemWnd
+        {
+            get
+            {
+                return openEditItemWnd ?? new RelayCommand(obj =>
+                {
+                    string resultStr = "Ничего не выбрано";
+                    //если сотрудник
+                    if (SelectedTabItem.Name == "UsersTab" && SelectedUser != null)
+                    {
+                        OpenEditUserWindowMethod(SelectedUser);
+                    }
+                    //если позиция
+                    if (SelectedTabItem.Name == "PositionTab" && SelectedPosition != null)
+                    {
+                        OpenEditPositionWindowMethod(SelectedPosition);
+                    }
+                    //если отдел
+                    if (SelectedTabItem.Name == "DepartmentsTab" && SelectedDepartment != null)
+                    {
+                        OpenEditDepartmentWindowMethod(SelectedDepartment);
+                    }
+                    //если клиент
+                    if (SelectedTabItem.Name == "ClientsTab" && SelectedClient != null)
+                    {
+                        OpenEditClientWindowMethod(SelectedClient);
+                    }
+                    //если депозит
+                    if (SelectedTabItem.Name == "DepositsTab" && SelectedDeposit != null)
+                    {
+                        OpenEditDepositWindowMethod(SelectedDeposit);
+                    }
+                });
+            }
+        }
+        #endregion
+
+        #region КОМАНДЫ РЕДАКТИРОВАНИЯ
+
+        /// <summary>
+        /// Команда редактирования юзера
+        /// </summary>
+        private RelayCommand editUser;
+        public RelayCommand EditUser
+        {
+            get
+            {
+                return editUser ?? new RelayCommand(obj =>
+                {
+                    Window window = obj as Window;
+                    string resultStr = "Не выбран сотрудник";
+                    string noPositionStr = "Не выбрана новая должность";
+                    if (SelectedUser != null && UserPosition != null)
+                    {
+                        if (UserPosition != null)
+                        {
+                            resultStr = DataWorker.EditUser(SelectedUser, UserName, UserSurName, UserPhone, UserPosition, UserDateOfBirth);
+                            UpdateAllDataView();
+                            SetNullValuesToProperties();
+                            ShowMessageToUser(resultStr);
+                            window.Close();
+                        }
+                        else ShowMessageToUser(noPositionStr);
+                    }
+                    else ShowMessageToUser(resultStr);
+                });
+            }
+        }
+
+        /// <summary>
+        /// Команда редактирования позиции
+        /// </summary>
+        private RelayCommand editPosition;
+        public RelayCommand EditPosition
+        {
+            get
+            {
+                return editPosition ?? new RelayCommand(obj =>
+                {
+                    Window window = obj as Window;
+                    string resultStr = "Не выбрана позиция";
+                    string noDepartmentStr = "Не выбран новый отдел";
+                    if (SelectedPosition != null)
+                    {
+                        if (PositionDepartment != null)
+                        {
+                            resultStr = DataWorker.EditPosition(SelectedPosition, PositionName, PositionMaxNumber,PositionSalary,PositionDepartment);
+                            UpdateAllDataView();
+                            SetNullValuesToProperties();
+                            ShowMessageToUser(resultStr);
+                            window.Close();
+                        }
+                        else ShowMessageToUser(noDepartmentStr);
+                    }
+                    else ShowMessageToUser(resultStr);
+                });
+            }
+        }
+
+        /// <summary>
+        /// Команда редактирования департмента
+        /// </summary>
+        private RelayCommand editDepartment;
+        public RelayCommand EditDepartment
+        {
+            get
+            {
+                return editDepartment ?? new RelayCommand(obj =>
+                {
+                    Window window = obj as Window;
+                    string resultStr = "Не выбран отдел";
+                    if (SelectedDepartment != null)
+                    {
+                        resultStr = DataWorker.EditDepartment(SelectedDepartment,DepartmentName);
+                        UpdateAllDataView();
+                        SetNullValuesToProperties();
+                        ShowMessageToUser(resultStr);
+                        window.Close();
+                    }
+                    else ShowMessageToUser(resultStr);
+                });
+            }
+        }
+
+        /// <summary>
+        /// Команда редактирования клиента
+        /// </summary>
+        private RelayCommand editClient;
+        public RelayCommand EditClient
+        {
+            get
+            {
+                return editClient ?? new RelayCommand(obj =>
+                {
+                    Window window = obj as Window;
+                    string resultStr = "Не выбран клиент";
+                    if (SelectedClient != null)
+                    {
+                        resultStr = DataWorker.EditClient(SelectedClient, ClientName, ClientSurName, ClientPhone, ClientIsVIP, ClientDateOfBirth);
+                        UpdateAllDataView();
+                        SetNullValuesToProperties();
+                        ShowMessageToUser(resultStr);
+                        window.Close();
+                    }
+                    else ShowMessageToUser(resultStr);
+                });
+            }
+        }
+
+        private RelayCommand editDeposit;
+        public RelayCommand EditDeposit
+        {
+            get
+            {
+                return editDeposit ?? new RelayCommand(obj =>
+                {
+                    Window window = obj as Window;
+                    string resultStr = "Не выбран депозит";
+                    string noClientStr = "Не выбран новый клиент или ответственный сотрудник";
+                    if (SelectedDeposit != null)
+                    {
+                        if (DepositClient != null && DepositResponsibleEmployee !=null)
+                        {
+                            resultStr = DataWorker.EditDeposit(SelectedDeposit,DepositClient,DepositPercent,DepositStartSum,DepositIsCapitalized,DepositDateOfStart,DepositMonthsCount,DepositResponsibleEmployee);
+                            UpdateAllDataView();
+                            SetNullValuesToProperties();
+                            ShowMessageToUser(resultStr);
+                            window.Close();
+                        }
+                        else ShowMessageToUser(noClientStr);
+                    }
+                    else ShowMessageToUser(resultStr);
+                });
+            }
+        }
+        #endregion
+
+        #region КОМАНДЫ УДАЛЕНИЯ
+        private RelayCommand deleteItem;
+        public RelayCommand DeleteItem
+        {
+            get
+            {
+                return deleteItem ?? new RelayCommand(obj =>
+                {
+                    string resultStr = "Ничего не выбрано";
+                    //если сотрудник
+                    if(SelectedTabItem.Name == "UsersTab" && SelectedUser!=null)
+                    {
+                        resultStr = DataWorker.DeleteUser(SelectedUser);
+                        UpdateAllDataView();
+                    }
+                    //если позиция
+                    if (SelectedTabItem.Name == "PositionTab" && SelectedPosition != null)
+                    {
+                        resultStr = DataWorker.DeletePosition(SelectedPosition);
+                        UpdateAllDataView();
+                    }
+                    //если отдел
+                    if (SelectedTabItem.Name == "DepartmentsTab" && SelectedDepartment != null)
+                    {
+                        resultStr = DataWorker.DeleteDepartment(SelectedDepartment);
+                        UpdateAllDataView();
+                    }
+                    //если клиент
+                    if (SelectedTabItem.Name == "ClientsTab" && SelectedClient != null)
+                    {
+                        resultStr = DataWorker.DeleteClient(SelectedClient);
+                        UpdateAllDataView();
+                    }
+                    //если депозит
+                    if (SelectedTabItem.Name == "DepositsTab" && SelectedDeposit != null)
+                    {
+                        resultStr = DataWorker.DeleteDeposit(SelectedDeposit);
+                        UpdateAllDataView();
+                    }
+                    //обновление
+                    SetNullValuesToProperties();
+                    ShowMessageToUser(resultStr);
+                }
+                    );
+            }
+        }
         #endregion
 
         #region РАЗНЫЕ МЕТОДЫ
