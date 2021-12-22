@@ -479,7 +479,7 @@ namespace TheBank2.ViewModel
                     {
                         SetRedBlockControl(wnd, "SurNameBlock");
                     }
-                    if (UserPhone == null)
+                    if (ClientPhone == null)
                     {
                         SetRedBlockControl(wnd, "PhoneBlock");
                     }
@@ -487,13 +487,13 @@ namespace TheBank2.ViewModel
                     {
                         SetRedBlockControl(wnd, "DateOfBirthDP");
                     }
-                    RadioButton rdtn = wnd.FindName("YesVIP") as RadioButton;
-                    if (rdtn.IsChecked == true)
-                    {
-                        ClientIsVIP = true;
-                    }
                     else
                     {
+                        RadioButton rdbtn = wnd.FindName("YesVIP") as RadioButton;
+                        if (rdbtn.IsChecked == true)
+                        {
+                            ClientIsVIP = true;
+                        }
                         resultStr = DataWorker.CreateClient(ClientName, ClientSurName, ClientPhone, ClientIsVIP, ClientDateOfBirth);
                         UpdateAllDataView();
                         ShowMessageToUser(resultStr);
@@ -703,6 +703,12 @@ namespace TheBank2.ViewModel
                     string resultStr = "Не выбран клиент";
                     if (SelectedClient != null)
                     {
+                        RadioButton rdbtn = window.FindName("YesVIP") as RadioButton;
+                        if (rdbtn.IsChecked == true)
+                        {
+                            ClientIsVIP = true;
+                        }
+                        else ClientIsVIP = false;
                         resultStr = DataWorker.EditClient(SelectedClient, ClientName, ClientSurName, ClientPhone, ClientIsVIP, ClientDateOfBirth);
                         UpdateAllDataView();
                         SetNullValuesToProperties();

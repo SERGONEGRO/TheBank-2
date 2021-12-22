@@ -18,6 +18,10 @@ namespace TheBank2.Model
         /// </summary>
         public string SurName { get; set; }
         /// <summary>
+        /// Фамилия+Имя
+        /// </summary>
+        public string FullName { get { return Name + " " + SurName; } }
+        /// <summary>
         /// телефон
         /// </summary>
         public string Phone { get; set; }

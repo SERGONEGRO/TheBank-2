@@ -5,135 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TheBank2.View"
         mc:Ignorable="d"
-        Title="The Negro Bank" Height="450" Width="800">
-    <Grid>
+        Title="The Negro Bank" Height="450" Width="800" Background="#FF9E4545">
+    <Grid OpacityMask="#FF69C36E" Background="#FFBDF1A5">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="*" />
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <TabControl Grid.Row="0" SelectedItem="{Binding SelectedTabItem}">
-            <!-- вкладка сотрудники -->
-            <TabItem Name="UsersTab">
-                <TabItem.Header>
-                    <TextBlock Text="Staff"/>
-                </TabItem.Header>
-                <TabItem.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Редактировать" Command="{Binding OpenEditItemWnd}"/>
-                        <MenuItem Header="Удалить" Command="{Binding DeleteItem}"/>
-                    </ContextMenu>
-                </TabItem.ContextMenu>
-                <ListView x:Name="ViewAllUsers" ItemsSource="{Binding AllUsers}"
-                          SelectedItem="{Binding SelectedUser}">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="ID"
-                                            DisplayMemberBinding="{Binding Path=Id}"/>
-                            <GridViewColumn Header="Name"
-                                            DisplayMemberBinding="{Binding Path=Name}"/>
-                            <GridViewColumn Header="SurName"
-                                            DisplayMemberBinding="{Binding Path=SurName}"/>
-                            <GridViewColumn Header="Phone"
-                                            DisplayMemberBinding="{Binding Path=Phone}"/>
-                            <GridViewColumn Header="Age"
-                                            DisplayMemberBinding="{Binding Path=Age}"/>
-                            <GridViewColumn Header="Position"
-                                            DisplayMemberBinding="{Binding Path=UserPosition.Name}"/>
-                            <GridViewColumn Header="Salary"
-                                            DisplayMemberBinding="{Binding Path=UserPosition.Salary}"/>
-                            <GridViewColumn Header="Department"
-                                            DisplayMemberBinding="{Binding Path=UserPosition.PositionDepartment.Name}"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-            </TabItem>
-            <!-- вкладка позиции -->
-            <TabItem Name="PositionTab">
-                <TabItem.Header>
-                    <TextBlock Text="Position"/>
-                </TabItem.Header>
-                <TabItem.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Редактировать" Command="{Binding OpenEditItemWnd}"/>
-                        <MenuItem Header="Удалить" Command="{Binding DeleteItem}"/>
-                    </ContextMenu>
-                </TabItem.ContextMenu>
-                <ListView x:Name="ViewAllPositions" ItemsSource="{Binding AllPositions}"
-                          SelectedItem="{Binding SelectedPosition}">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="Name"
-                                            DisplayMemberBinding="{Binding Path=Name}"/>
-                            <GridViewColumn Header="Salary"
-                                            DisplayMemberBinding="{Binding Path=Salary}"/>
-                            <GridViewColumn Header="Count of staffs"
-                                            DisplayMemberBinding="{Binding Path=PositionUsers.Count}"/>
-                            <GridViewColumn Header="Max number"
-                                            DisplayMemberBinding="{Binding Path=MaxNumber}"/>
-                            <GridViewColumn Header="Department"
-                                            DisplayMemberBinding="{Binding Path=PositionDepartment.Name}"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-            </TabItem>
-            <!-- вкладка департменты -->
-            <TabItem Name="DepartmentsTab">
-                <TabItem.Header>
-                    <TextBlock Text="Departments"/>
-                </TabItem.Header>
-                <TabItem.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Редактировать" Command="{Binding OpenEditItemWnd}"/>
-                        <MenuItem Header="Удалить" Command="{Binding DeleteItem}"/>
-                    </ContextMenu>
-                </TabItem.ContextMenu>
-                <ListView x:Name="ViewAllDepartments" ItemsSource="{Binding AllDepartments}"
-                          SelectedItem="{Binding SelectedDepartment}">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="Name"
-                                            DisplayMemberBinding="{Binding Path=Name}"/>
-                            <GridViewColumn Header="Count of positions"
-                                            DisplayMemberBinding="{Binding Path=DepartmentPositions.Count}"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-            </TabItem>
-            <!-- вкладка клиенты -->
-            <TabItem Name="ClientsTab">
-                <TabItem.Header>
-                    <TextBlock Text="Clients"/>
-                </TabItem.Header>
-                <TabItem.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Редактировать" Command="{Binding OpenEditItemWnd}"/>
-                        <MenuItem Header="Удалить" Command="{Binding DeleteItem}"/>
-                    </ContextMenu>
-                </TabItem.ContextMenu>
-                <ListView x:Name="ViewAllClients" ItemsSource="{Binding AllClients}"
-                          SelectedItem="{Binding SelectedClient}">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="ID"
-                                            DisplayMemberBinding="{Binding Path=Id}"/>
-                            <GridViewColumn Header="Name"
-                                            DisplayMemberBinding="{Binding Path=Name}"/>
-                            <GridViewColumn Header="SurName"
-                                            DisplayMemberBinding="{Binding Path=SurName}"/>
-                            <GridViewColumn Header="Phone"
-                                            DisplayMemberBinding="{Binding Path=Phone}"/>
-                            <GridViewColumn Header="VipStatus"
-                                            DisplayMemberBinding="{Binding Path=IsVIP}"/>
-                            <GridViewColumn Header="Age"
-                                            DisplayMemberBinding="{Binding Path=Age}"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-            </TabItem>
+        <TabControl Name="TabCntrl"  Grid.Row="0" SelectedItem="{Binding SelectedTabItem}" Width="auto">
             <!-- вкладка вклады -->
-            <TabItem Name="DepositsTab">
+            <TabItem Name="DepositsTab" Tag="Depos">
                 <TabItem.Header>
-                    <TextBlock Text="Deposits"/>
+                    <TextBlock Text="Deposits" FontFamily="Century Gothic" FontWeight="Bold"/>
                 </TabItem.Header>
                 <TabItem.ContextMenu>
                     <ContextMenu>
@@ -142,38 +24,212 @@
                     </ContextMenu>
                 </TabItem.ContextMenu>
                 <ListView x:Name="ViewAllDeposits" ItemsSource="{Binding AllDeposits}"
-                          SelectedItem="{Binding SelectedDeposit}">
+                          SelectedItem="{Binding SelectedDeposit}" Background="#FFE8DDDD">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="ID"
+                            <GridViewColumn Header="ID" Width="auto"
                                             DisplayMemberBinding="{Binding Path=Id}"/>
-                            <GridViewColumn Header="Client"
+                            <GridViewColumn Header="Client" Width="auto"
                                             DisplayMemberBinding="{Binding Path=DepositClient.Name}"/>
-                            <GridViewColumn Header="DepositPercent"
+                            <GridViewColumn Header="DepositPercent" Width="auto"
                                             DisplayMemberBinding="{Binding Path=DepositPercent}"/>
-                            <GridViewColumn Header="StartSum"
+                            <GridViewColumn Header="StartSum" Width="auto"
                                             DisplayMemberBinding="{Binding Path=StartSum}"/>
-                            <GridViewColumn Header="IsCapitalized"
+                            <GridViewColumn Header="IsCapitalized" Width="auto"
                                             DisplayMemberBinding="{Binding Path=IsCapitalized}"/>
-                            <GridViewColumn Header="CurrentSum"
+                            <GridViewColumn Header="CurrentSum" Width="auto"
                                             DisplayMemberBinding="{Binding Path=CurrentSum}"/>
-                            <GridViewColumn Header="DateOfStart"
+                            <GridViewColumn Header="DateOfStart" Width="auto"
                                             DisplayMemberBinding="{Binding Path=DateOfStart}"/>
-                            <GridViewColumn Header="MonthCount"
+                            <GridViewColumn Header="MonthCount" Width="auto"
                                             DisplayMemberBinding="{Binding Path=MonthsCount}"/>
-                            <GridViewColumn Header="ResponsiblePerson"
+                            <GridViewColumn Header="ResponsiblePerson" Width="auto"
                                             DisplayMemberBinding="{Binding Path=DepositUser.Name}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
             </TabItem>
+            <!-- вкладка сотрудники -->
+            <TabItem Name="UsersTab" Tag="Usrs">
+                <TabItem.Header>
+                    <TextBlock Text="Staff" FontFamily="Century Gothic" FontWeight="Bold"/>
+                </TabItem.Header>
+                <TabItem.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Редактировать" Command="{Binding OpenEditItemWnd}"/>
+                        <MenuItem Header="Удалить" Command="{Binding DeleteItem}"/>
+                    </ContextMenu>
+                </TabItem.ContextMenu>
+                <ListView x:Name="ViewAllUsers" ItemsSource="{Binding AllUsers}"
+                          SelectedItem="{Binding SelectedUser}" Background="#FFE8DDDD">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="ID" Width="auto"
+                                            DisplayMemberBinding="{Binding Path=Id}"/>
+                            <GridViewColumn Header="Name" Width="auto"
+                                            DisplayMemberBinding="{Binding Path=Name}"/>
+                            <GridViewColumn Header="SurName" Width="auto"
+                                            DisplayMemberBinding="{Binding Path=SurName}"/>
+                            <GridViewColumn Header="Phone" Width="auto"
+                                            DisplayMemberBinding="{Binding Path=Phone}"/>
+                            <GridViewColumn Header="Age" Width="auto"
+                                            DisplayMemberBinding="{Binding Path=Age}"/>
+                            <GridViewColumn Header="Position" Width="auto"
+                                            DisplayMemberBinding="{Binding Path=UserPosition.Name}"/>
+                            <GridViewColumn Header="Salary" Width="auto"
+                                            DisplayMemberBinding="{Binding Path=UserPosition.Salary}"/>
+                            <GridViewColumn Header="Department" Width="auto"
+                                            DisplayMemberBinding="{Binding Path=UserPosition.PositionDepartment.Name}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </TabItem>
+            <!-- вкладка позиции -->
+            <TabItem Name="PositionTab" Tag="Pstns">
+                <TabItem.Header>
+                    <TextBlock Text="Position" FontFamily="Century Gothic" FontWeight="Bold"/>
+                </TabItem.Header>
+                <TabItem.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Редактировать" Command="{Binding OpenEditItemWnd}"/>
+                        <MenuItem Header="Удалить" Command="{Binding DeleteItem}"/>
+                    </ContextMenu>
+                </TabItem.ContextMenu>
+                <ListView x:Name="ViewAllPositions" ItemsSource="{Binding AllPositions}"
+                          SelectedItem="{Binding SelectedPosition}" Background="#FFE8DDDD">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Name" Width="auto"
+                                            DisplayMemberBinding="{Binding Path=Name}"/>
+                            <GridViewColumn Header="Salary" Width="auto"
+                                            DisplayMemberBinding="{Binding Path=Salary}"/>
+                            <GridViewColumn Header="Count of staffs" Width="auto"
+                                            DisplayMemberBinding="{Binding Path=PositionUsers.Count}"/>
+                            <GridViewColumn Header="Max number" Width="auto"
+                                            DisplayMemberBinding="{Binding Path=MaxNumber}"/>
+                            <GridViewColumn Header="Department" Width="auto"
+                                            DisplayMemberBinding="{Binding Path=PositionDepartment.Name}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </TabItem>
+            <!-- вкладка департменты -->
+            <TabItem Name="DepartmentsTab" Tag="Dprtmnts">
+                <TabItem.Header>
+                    <TextBlock Text="Departments" FontFamily="Century Gothic" FontWeight="Bold"/>
+                </TabItem.Header>
+                <TabItem.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Редактировать" Command="{Binding OpenEditItemWnd}"/>
+                        <MenuItem Header="Удалить" Command="{Binding DeleteItem}"/>
+                    </ContextMenu>
+                </TabItem.ContextMenu>
+                <ListView x:Name="ViewAllDepartments" ItemsSource="{Binding AllDepartments}"
+                          SelectedItem="{Binding SelectedDepartment}" Background="#FFE8DDDD">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Name" Width="auto"
+                                            DisplayMemberBinding="{Binding Path=Name}"/>
+                            <GridViewColumn Header="Count of positions" Width="auto"
+                                            DisplayMemberBinding="{Binding Path=DepartmentPositions.Count}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </TabItem>
+            <!-- вкладка клиенты -->
+            <TabItem Name="ClientsTab"  Tag="Clnts">
+                <TabItem.Header>
+                    <TextBlock Text="Clients" FontFamily="Century Gothic" FontWeight="Bold"/>
+                </TabItem.Header>
+                <TabItem.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Редактировать" Command="{Binding OpenEditItemWnd}"/>
+                        <MenuItem Header="Удалить" Command="{Binding DeleteItem}"/>
+                    </ContextMenu>
+                </TabItem.ContextMenu>
+                <ListView x:Name="ViewAllClients" ItemsSource="{Binding AllClients}"
+                          SelectedItem="{Binding SelectedClient}" Background="#FFE8DDDD">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="ID" Width="auto"
+                                            DisplayMemberBinding="{Binding Path=Id}"/>
+                            <GridViewColumn Header="Name" Width="auto"
+                                            DisplayMemberBinding="{Binding Path=Name}"/>
+                            <GridViewColumn Header="SurName" Width="auto"
+                                            DisplayMemberBinding="{Binding Path=SurName}"/>
+                            <GridViewColumn Header="Phone" Width="auto"
+                                            DisplayMemberBinding="{Binding Path=Phone}"/>
+                            <GridViewColumn Header="VipStatus" Width="auto"
+                                            DisplayMemberBinding="{Binding Path=IsVIP}"/>
+                            <GridViewColumn Header="Age" Width="auto"
+                                            DisplayMemberBinding="{Binding Path=Age}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </TabItem>
+            <!--Кнопки -->
         </TabControl>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Новый сотрудник" Command="{Binding OpenAddNewUserWnd}"/>
-            <Button Content="Новая позиция" Command="{Binding OpenAddNewPositionWnd}"/>
-            <Button Content="Новый отдел" Command="{Binding OpenAddNewDepartmentWnd}"/>
-            <Button Content="Новый клиент" Command="{Binding OpenAddNewClientWnd}"/>
-            <Button Content="Новый депозит" Command="{Binding OpenAddNewDepositWnd}"/>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+            <Button Content="Новый депозит" Command="{Binding OpenAddNewDepositWnd}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,0,10,0" Background="#FF3EDE8E" FontFamily="Century Gothic" FontSize="20" BorderThickness="5,5,5,5" ClipToBounds="True">
+                <Button.Style>
+                    <Style>
+                        <Setter Property="Button.Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=TabCntrl, Path=SelectedItem.Tag}" Value="Depos">
+                                <Setter Property="Button.Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button Content="Новый сотрудник" Command="{Binding OpenAddNewUserWnd}" Margin="10,0,10,0" Background="#FF3EDE8E" FontFamily="Century Gothic" FontSize="20">
+                <Button.Style>
+                    <Style>
+                        <Setter Property="Button.Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=TabCntrl, Path=SelectedItem.Tag}" Value="Usrs">
+                                <Setter Property="Button.Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button Content="Новая позиция" Command="{Binding OpenAddNewPositionWnd}" Margin="10,0,10,0" Background="#FF3EDE8E" FontFamily="Century Gothic" FontSize="20">
+                <Button.Style>
+                    <Style>
+                        <Setter Property="Button.Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=TabCntrl, Path=SelectedItem.Tag}" Value="Pstns">
+                                <Setter Property="Button.Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button Content="Новый отдел" Command="{Binding OpenAddNewDepartmentWnd}" Margin="10,0,10,0" Background="#FF3EDE8E" FontFamily="Century Gothic" FontSize="20">
+                <Button.Style>
+                    <Style>
+                        <Setter Property="Button.Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=TabCntrl, Path=SelectedItem.Tag}" Value="Dprtmnts">
+                                <Setter Property="Button.Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button Content="Новый клиент" Command="{Binding OpenAddNewClientWnd}" Margin="10,0,10,0" Background="#FF3EDE8E" FontFamily="Century Gothic" FontSize="20">
+                <Button.Style>
+                    <Style>
+                        <Setter Property="Button.Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=TabCntrl, Path=SelectedItem.Tag}" Value="Clnts">
+                                <Setter Property="Button.Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
         </StackPanel>
 
     </Grid>

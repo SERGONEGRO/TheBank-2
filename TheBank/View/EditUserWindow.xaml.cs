@@ -17,6 +17,7 @@ namespace TheBank2.View
             DataManageVM.SelectedUser = userToEdit;
             DataManageVM.UserName = userToEdit.Name;
             DataManageVM.UserSurName = userToEdit.SurName;
+            DataManageVM.UserPhone = userToEdit.Phone;
             DataManageVM.UserDateOfBirth = userToEdit.DateOfBirth;
             //DataManageVM.UserPosition = userToEdit.Position;
         }

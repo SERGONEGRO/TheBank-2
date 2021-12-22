@@ -13,6 +13,7 @@ namespace TheBank2.View
         {
             InitializeComponent();
             DataContext = new DataManageVM();
+            DataManageVM.ClientDateOfBirth = System.DateTime.Now;
         }
         private void PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
