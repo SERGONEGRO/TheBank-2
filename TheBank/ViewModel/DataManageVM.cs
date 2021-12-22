@@ -548,7 +548,8 @@ namespace TheBank2.ViewModel
                     }
                     else
                     {
-                        resultStr = DataWorker.CreateDeposit(DepositClient, DepositPercent, DepositStartSum, DepositIsCapitalized, DepositDateOfStart, DepositMonthsCount, DepositResponsibleEmployee);
+                        resultStr = DataWorker.CreateDeposit(DepositClient, DepositPercent, DepositStartSum, DepositIsCapitalized,
+                            DepositDateOfStart, DepositMonthsCount, DepositResponsibleEmployee);
                         UpdateAllDataView();
                         ShowMessageToUser(resultStr);
                         SetNullValuesToProperties();
@@ -734,7 +735,8 @@ namespace TheBank2.ViewModel
                     {
                         if (DepositClient != null && DepositResponsibleEmployee !=null)
                         {
-                            resultStr = DataWorker.EditDeposit(SelectedDeposit,DepositClient,DepositPercent,DepositStartSum,DepositIsCapitalized,DepositDateOfStart,DepositMonthsCount,DepositResponsibleEmployee);
+                            resultStr = DataWorker.EditDeposit(SelectedDeposit,DepositClient,DepositPercent,
+                                DepositStartSum,DepositIsCapitalized,DepositDateOfStart,DepositMonthsCount,DepositResponsibleEmployee);
                             UpdateAllDataView();
                             SetNullValuesToProperties();
                             ShowMessageToUser(resultStr);

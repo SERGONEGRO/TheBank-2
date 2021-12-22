@@ -30,21 +30,25 @@
                             <GridViewColumn Header="ID" Width="auto"
                                             DisplayMemberBinding="{Binding Path=Id}"/>
                             <GridViewColumn Header="Client" Width="auto"
-                                            DisplayMemberBinding="{Binding Path=DepositClient.Name}"/>
-                            <GridViewColumn Header="DepositPercent" Width="auto"
+                                            DisplayMemberBinding="{Binding Path=DepositClient.FullName}"/>
+                            <GridViewColumn Header="%" Width="auto"
                                             DisplayMemberBinding="{Binding Path=DepositPercent}"/>
                             <GridViewColumn Header="StartSum" Width="auto"
                                             DisplayMemberBinding="{Binding Path=StartSum}"/>
                             <GridViewColumn Header="IsCapitalized" Width="auto"
                                             DisplayMemberBinding="{Binding Path=IsCapitalized}"/>
                             <GridViewColumn Header="CurrentSum" Width="auto"
-                                            DisplayMemberBinding="{Binding Path=CurrentSum}"/>
-                            <GridViewColumn Header="DateOfStart" Width="auto"
-                                            DisplayMemberBinding="{Binding Path=DateOfStart}"/>
-                            <GridViewColumn Header="MonthCount" Width="auto"
+                                            DisplayMemberBinding="{Binding StringFormat=\{0:n2\},Path=CurrentSum}"/>
+                            <GridViewColumn Header="StartDate" Width="auto"
+                                            DisplayMemberBinding="{Binding StringFormat=d,Path=DateOfStart}"/>
+                            <GridViewColumn Header="Duration" Width="auto"
                                             DisplayMemberBinding="{Binding Path=MonthsCount}"/>
-                            <GridViewColumn Header="ResponsiblePerson" Width="auto"
-                                            DisplayMemberBinding="{Binding Path=DepositUser.Name}"/>
+                            <GridViewColumn Header="EndDate" Width="auto"
+                                            DisplayMemberBinding="{Binding StringFormat=d,Path=DateOfEnd}"/>
+                            <GridViewColumn Header="EndSum" Width="auto"
+                                            DisplayMemberBinding="{Binding StringFormat=\{0:n2\},Path=EndSum}"/>
+                            <GridViewColumn Header="Responsible" Width="auto"
+                                            DisplayMemberBinding="{Binding Path=DepositUser.FullName}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
@@ -67,9 +71,7 @@
                             <GridViewColumn Header="ID" Width="auto"
                                             DisplayMemberBinding="{Binding Path=Id}"/>
                             <GridViewColumn Header="Name" Width="auto"
-                                            DisplayMemberBinding="{Binding Path=Name}"/>
-                            <GridViewColumn Header="SurName" Width="auto"
-                                            DisplayMemberBinding="{Binding Path=SurName}"/>
+                                            DisplayMemberBinding="{Binding Path=FullName}"/>
                             <GridViewColumn Header="Phone" Width="auto"
                                             DisplayMemberBinding="{Binding Path=Phone}"/>
                             <GridViewColumn Header="Age" Width="auto"
@@ -154,9 +156,7 @@
                             <GridViewColumn Header="ID" Width="auto"
                                             DisplayMemberBinding="{Binding Path=Id}"/>
                             <GridViewColumn Header="Name" Width="auto"
-                                            DisplayMemberBinding="{Binding Path=Name}"/>
-                            <GridViewColumn Header="SurName" Width="auto"
-                                            DisplayMemberBinding="{Binding Path=SurName}"/>
+                                            DisplayMemberBinding="{Binding Path=FullName}"/>
                             <GridViewColumn Header="Phone" Width="auto"
                                             DisplayMemberBinding="{Binding Path=Phone}"/>
                             <GridViewColumn Header="VipStatus" Width="auto"
@@ -170,7 +170,12 @@
             <!--Кнопки -->
         </TabControl>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
-            <Button Content="Новый депозит" Command="{Binding OpenAddNewDepositWnd}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,0,10,0" Background="#FF3EDE8E" FontFamily="Century Gothic" FontSize="20" BorderThickness="5,5,5,5" ClipToBounds="True">
+            <Button Content="Новый депозит" Command="{Binding OpenAddNewDepositWnd}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,0,10,0" Background="#FF3EDE8E" FontFamily="Century Gothic" FontSize="20" BorderThickness="1,1,1,1">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
                 <Button.Style>
                     <Style>
                         <Setter Property="Button.Visibility" Value="Collapsed"/>
@@ -183,6 +188,11 @@
                 </Button.Style>
             </Button>
             <Button Content="Новый сотрудник" Command="{Binding OpenAddNewUserWnd}" Margin="10,0,10,0" Background="#FF3EDE8E" FontFamily="Century Gothic" FontSize="20">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
                 <Button.Style>
                     <Style>
                         <Setter Property="Button.Visibility" Value="Collapsed"/>
@@ -195,6 +205,11 @@
                 </Button.Style>
             </Button>
             <Button Content="Новая позиция" Command="{Binding OpenAddNewPositionWnd}" Margin="10,0,10,0" Background="#FF3EDE8E" FontFamily="Century Gothic" FontSize="20">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
                 <Button.Style>
                     <Style>
                         <Setter Property="Button.Visibility" Value="Collapsed"/>
@@ -207,6 +222,11 @@
                 </Button.Style>
             </Button>
             <Button Content="Новый отдел" Command="{Binding OpenAddNewDepartmentWnd}" Margin="10,0,10,0" Background="#FF3EDE8E" FontFamily="Century Gothic" FontSize="20">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
                 <Button.Style>
                     <Style>
                         <Setter Property="Button.Visibility" Value="Collapsed"/>
@@ -219,6 +239,11 @@
                 </Button.Style>
             </Button>
             <Button Content="Новый клиент" Command="{Binding OpenAddNewClientWnd}" Margin="10,0,10,0" Background="#FF3EDE8E" FontFamily="Century Gothic" FontSize="20">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
                 <Button.Style>
                     <Style>
                         <Setter Property="Button.Visibility" Value="Collapsed"/>
@@ -233,4 +258,7 @@
         </StackPanel>
 
     </Grid>
+    
 </Window>
+    
+    

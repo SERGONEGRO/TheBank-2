@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Windows;
 using TheBank2.ViewModel;
@@ -15,6 +14,7 @@ namespace TheBank2.View
         {
             InitializeComponent();
             DataContext = new DataManageVM();
+            DataManageVM.UserDateOfBirth = DateTime.Now;
         }
         private void PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {

@@ -38,7 +38,70 @@ namespace TheBank2.Model
         /// <summary>
         /// Текущая сумма
         /// </summary>
-        public double CurrentSum { get; set; }
+        [NotMapped]
+        public double CurrentSum 
+        {
+            get
+            {
+                int monthsLeft;
+                if (DateOfEnd < DateTime.Now) { monthsLeft = MonthsCount; }
+                else
+                {
+                    TimeSpan timeSpan = DateTime.Now - DateOfStart;
+                    monthsLeft = timeSpan.Days / 30;
+                }
+                if (IsCapitalized)
+                {
+                    return CalculationWithCapitalizing(monthsLeft);
+                }
+                else
+                {
+                    return CalculationWithoutCapitalizing(monthsLeft);
+                }
+            }
+        }
+        /// <summary>
+        /// сумма по окончанию вклада
+        /// </summary>
+        [NotMapped]
+        public double EndSum
+        {
+            get
+            {
+                if (IsCapitalized)
+                {
+                    return CalculationWithCapitalizing(MonthsCount);
+                }
+                else
+                {
+                    return CalculationWithoutCapitalizing(MonthsCount);
+                }
+            }
+        }
+
+        private double CalculationWithoutCapitalizing(int months)
+        {
+            //если VIP - +1%
+            if (DepositClient.IsVIP) { DepositPercent++; }
+            double result = StartSum;
+            for(int i = 0; i< months;i++)
+            {
+                result = result + (StartSum * DepositPercent / 100 / 12);
+            }
+            return result;
+        }
+
+        private double CalculationWithCapitalizing(int months)
+        {
+            //если VIP - +1%
+            if (DepositClient.IsVIP) { DepositPercent++; }
+            double result = StartSum;
+            for (int i = 0; i < months; i++)
+            {
+                result = result + (result * DepositPercent / 100 / 12);
+            }
+            return result;
+        }
 
         /// <summary>
         /// Дата начала вклада

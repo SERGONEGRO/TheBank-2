@@ -18,7 +18,7 @@
                     Width="200">
             <TextBlock Text="New Client"/>
             <ComboBox ItemsSource="{Binding AllClients}"
-                      DisplayMemberPath="Name"
+                      DisplayMemberPath="FullName"
                       SelectedItem="{Binding DepositClient}"/>
             <TextBlock Text="New DepositPercent"/>
             <TextBox PreviewTextInput="PreviewTextInput" Text="{Binding DepositPercent}"/>
@@ -29,7 +29,7 @@
             <RadioButton Name ="NoCapitalized" Content="Нет"/>
             <TextBlock Text="New ResponsibleEmployee"/>
             <ComboBox ItemsSource="{Binding AllUsers}"
-                      DisplayMemberPath="Name"
+                      DisplayMemberPath="FullName"
                       SelectedItem="{Binding DepositUser}"/>
             <TextBlock Text="New DateOfStart:"/>
             <DatePicker SelectedDate="{Binding DepositDateOfStart}"/>
