@@ -10,8 +10,8 @@ using TheBank2.Data;
 namespace TheBank2.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20211220180845_Initialize")]
-    partial class Initialize
+    [Migration("20211223211202_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -72,9 +72,6 @@ namespace TheBank2.Migrations
 
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
-
-                    b.Property<double>("CurrentSum")
-                        .HasColumnType("float");
 
                     b.Property<DateTime>("DateOfStart")
                         .HasColumnType("datetime2");

@@ -21,6 +21,7 @@
                     <ContextMenu>
                         <MenuItem Header="Редактировать" Command="{Binding OpenEditItemWnd}"/>
                         <MenuItem Header="Удалить" Command="{Binding DeleteItem}"/>
+                        <MenuItem Header="Сделать перевод с этого счёта" Command="{Binding OpenTransferDepositWnd}"/>
                     </ContextMenu>
                 </TabItem.ContextMenu>
                 <ListView x:Name="ViewAllDeposits" ItemsSource="{Binding AllDeposits}"

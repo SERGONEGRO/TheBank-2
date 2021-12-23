@@ -47,8 +47,7 @@ namespace TheBank2.Model
                 if (DateOfEnd < DateTime.Now) { monthsLeft = MonthsCount; }
                 else
                 {
-                    TimeSpan timeSpan = DateTime.Now - DateOfStart;
-                    monthsLeft = timeSpan.Days / 30;
+                    monthsLeft = MonthCalculate();
                 }
                 if (IsCapitalized)
                 {
@@ -59,6 +58,21 @@ namespace TheBank2.Model
                     return CalculationWithoutCapitalizing(monthsLeft);
                 }
             }
+            set { }
+        }
+
+        /// <summary>
+        /// Подсчёт месяцев
+        /// </summary>
+        /// <returns></returns>
+        public int MonthCalculate()
+        {
+            if (DateTime.Now > DateOfStart)
+            {
+                TimeSpan timeSpan = DateTime.Now - DateOfStart;
+                return timeSpan.Days / 30;
+            }
+            else return 0;
         }
         /// <summary>
         /// сумма по окончанию вклада
@@ -79,6 +93,11 @@ namespace TheBank2.Model
             }
         }
 
+        /// <summary>
+        /// Вычисление суммы депозита по количеству месяцев без капитализации
+        /// </summary>
+        /// <param name="months"></param>
+        /// <returns></returns>
         private double CalculationWithoutCapitalizing(int months)
         {
             //если VIP - +1%
@@ -91,6 +110,11 @@ namespace TheBank2.Model
             return result;
         }
 
+        /// <summary>
+        /// Вычисление суммы депозита по количеству месяцев с капитализацией
+        /// </summary>
+        /// <param name="months"></param>
+        /// <returns></returns>
         private double CalculationWithCapitalizing(int months)
         {
             //если VIP - +1%
@@ -101,6 +125,17 @@ namespace TheBank2.Model
                 result = result + (result * DepositPercent / 100 / 12);
             }
             return result;
+        }
+
+        /// <summary>
+        /// Перерасчёт депозита ( после перевода денег)
+        /// </summary>
+        /// <param name="sumToTransfer"></param>
+        public void DepositRecalculation(int sumToTransfer)
+        {
+            StartSum = (int)CurrentSum + sumToTransfer;
+            MonthsCount -= MonthCalculate();
+            DateOfStart = DateTime.Now;
         }
 
         /// <summary>

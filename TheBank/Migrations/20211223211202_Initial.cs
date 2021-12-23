@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TheBank2.Migrations
 {
-    public partial class Initialize : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -94,7 +94,6 @@ namespace TheBank2.Migrations
                     DepositPercent = table.Column<double>(type: "float", nullable: false),
                     StartSum = table.Column<int>(type: "int", nullable: false),
                     IsCapitalized = table.Column<bool>(type: "bit", nullable: false),
-                    CurrentSum = table.Column<double>(type: "float", nullable: false),
                     DateOfStart = table.Column<DateTime>(type: "datetime2", nullable: false),
                     MonthsCount = table.Column<int>(type: "int", nullable: false),
                     ResponsibleEmployeeId = table.Column<int>(type: "int", nullable: false)

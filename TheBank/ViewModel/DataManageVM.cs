@@ -51,6 +51,8 @@ namespace TheBank2.ViewModel
         public static User DepositResponsibleEmployee { get; set; }
         public static DateTime DepositDateOfStart { get; set; }
         public static int DepositMonthsCount { get; set; }
+        public static Deposit DestinationDeposit { get; set; }
+        public static int DepositSumToTransfer { get; set; }
         #endregion
 
         #region СВОЙСТВА ДЛЯ ВЫДЕЛЕННЫХ ЭЛЕМЕНТОВ
@@ -198,6 +200,15 @@ namespace TheBank2.ViewModel
         }
 
         /// <summary>
+        /// Открытие окна создания перевода
+        /// </summary>
+        private void OpenTransferDepositWindowMethod()
+        {
+            TransferDepositWindow newTransferDepositWindow = new();
+            SetCenterPositionAndOpen(newTransferDepositWindow);
+        }
+
+        /// <summary>
         /// Открывает окно в центре предыдущего окна
         /// </summary>
         /// <param name="window"></param>
@@ -334,6 +345,19 @@ namespace TheBank2.ViewModel
                 return openAddNewDepositWnd ?? new RelayCommand(obj =>
                 {
                     OpenAddDepositWindowMethod();
+                }
+                    );
+            }
+        }
+
+        private RelayCommand openTransferDepositWnd;
+        public RelayCommand OpenTransferDepositWnd
+        {
+            get
+            {
+                return openTransferDepositWnd ?? new RelayCommand(obj =>
+                {
+                    OpenTransferDepositWindowMethod();
                 }
                     );
             }
@@ -721,6 +745,9 @@ namespace TheBank2.ViewModel
             }
         }
 
+        /// <summary>
+        /// Команда редактирования депозита
+        /// </summary>
         private RelayCommand editDeposit;
         public RelayCommand EditDeposit
         {
@@ -743,6 +770,36 @@ namespace TheBank2.ViewModel
                             window.Close();
                         }
                         else ShowMessageToUser(noClientStr);
+                    }
+                    else ShowMessageToUser(resultStr);
+                });
+            }
+        }
+        #endregion
+
+        #region КОМАНДЫ ПЕРЕВОДА ДЕПОЗИТОВ
+
+        private RelayCommand transferDeposit;
+        public RelayCommand TransferDeposit
+        {
+            get
+            {
+                return transferDeposit ?? new RelayCommand(obj =>
+                {
+                    Window window = obj as Window;
+                    string resultStr = "Не выбран депозит";
+                    string noSumToTransfer = "Не выбрана сумма перевода или счет перевода";
+                    if (SelectedDeposit != null)
+                    {
+                        if (DestinationDeposit != null && DepositSumToTransfer > 0)
+                        {
+                            resultStr = DataWorker.TransferDeposit(SelectedDeposit.Id, DestinationDeposit.Id, DepositSumToTransfer);
+                            UpdateAllDataView();
+                            SetNullValuesToProperties();
+                            ShowMessageToUser(resultStr);
+                            window.Close();
+                        }
+                        else ShowMessageToUser(noSumToTransfer);
                     }
                     else ShowMessageToUser(resultStr);
                 });
@@ -846,6 +903,8 @@ namespace TheBank2.ViewModel
             DepositDateOfStart = DateTime.MinValue;
             DepositMonthsCount = 0;
             DepositResponsibleEmployee = null;
+            DepositSumToTransfer = 0;
+            DestinationDeposit = null;
         }
         private void UpdateAllDataView()
         {

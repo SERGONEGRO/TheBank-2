@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TheBank2.Data;
 
 namespace TheBank2.Model
 {
-    class DataWorker
+    internal class DataWorker
     {
         #region МЕТОДЫ, ВОЗВРАЩАЮЩИЕ ЗНАЧЕНИЯ
 
@@ -17,11 +15,9 @@ namespace TheBank2.Model
         /// <returns></returns>
         public static List<Department> GetAllDepartments()
         {
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                var result = db.Departments.ToList();
-                return result;
-            }
+            using ApplicationContext db = new();
+            List<Department> result = db.Departments.ToList();
+            return result;
         }
 
         /// <summary>
@@ -30,11 +26,9 @@ namespace TheBank2.Model
         /// <returns></returns>
         public static List<Position> GetAllPositions()
         {
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                var result = db.Positions.ToList();
-                return result;
-            }
+            using ApplicationContext db = new();
+            List<Position> result = db.Positions.ToList();
+            return result;
         }
 
         /// <summary>
@@ -418,7 +412,7 @@ namespace TheBank2.Model
         public static string EditDepartment(Department oldDepartment, string newName)
         {
             string result = "Такого отдела не существует";
-            using (ApplicationContext db = new ApplicationContext())
+            using (ApplicationContext db = new())
             {
                 Department department = db.Departments.FirstOrDefault(d => d.Id == oldDepartment.Id);
                 department.Name = newName;
@@ -436,7 +430,8 @@ namespace TheBank2.Model
         public static string EditPosition(Position oldPosition,string newName,int newMaxNumber, decimal newSalary, Department newDepartment)
         {
             string result = "Такой позиции не существует";
-            using (ApplicationContext db = new ApplicationContext())
+            ApplicationContext applicationContext = new();
+            using (ApplicationContext db = applicationContext)
             {
                 Position position = db.Positions.FirstOrDefault(p => p.Id == oldPosition.Id);
                 position.Name = newName;
@@ -462,7 +457,7 @@ namespace TheBank2.Model
         public static string EditUser(User oldUser, string newName, string newSurName, string newPhone, Position newPosition, DateTime newDateOfBirth)
         {
             string result = "Такого сотрудника не существует";
-            using (ApplicationContext db = new ApplicationContext())
+            using (ApplicationContext db = new())
             {
                 User user = db.Users.FirstOrDefault(p => p.Id == oldUser.Id);
                 if (user != null)
@@ -492,7 +487,7 @@ namespace TheBank2.Model
         public static string EditClient(Client oldClient, string newName, string newSurName, string newPhone, bool newIsVip, DateTime newDateOfBirth)
         {
             string result = "Такого клиента не существует";
-            using (ApplicationContext db = new ApplicationContext())
+            using (ApplicationContext db = new())
             {
                 Client client = db.Clients.FirstOrDefault(p => p.Id == oldClient.Id);
                 if (client != null)
@@ -525,7 +520,7 @@ namespace TheBank2.Model
             DateTime newDateOfStart, int newMonthsCount, User newResponsibleEmployee)
         {
             string result = "Такого Депозита не существует";
-            using (ApplicationContext db = new ApplicationContext())
+            using (ApplicationContext db = new())
             {
                 Deposit deposit = db.Deposits.FirstOrDefault(p => p.Id == oldDeposit.Id);
                 if (deposit != null)
@@ -544,5 +539,34 @@ namespace TheBank2.Model
             return result;
         }
         #endregion
+        #region МЕТОД ПЕРЕВОДА ДЕПОЗИТА
+        /// <summary>
+        /// Переводит депозит
+        /// </summary>
+        /// <param name="sourceDepositId"></param>
+        /// <param name="destinationDepositId"></param>
+        /// <param name="depositSumToTransfer"></param>
+        /// <returns></returns>
+        internal static string TransferDeposit(int sourceDepositId, int destinationDepositId, int depositSumToTransfer)
+        {
+            using ApplicationContext db = new();
+            Deposit sourceDeposit = db.Deposits.FirstOrDefault(p => p.Id == sourceDepositId);
+            Deposit destinationDeposit = db.Deposits.FirstOrDefault(p => p.Id == destinationDepositId);
+            if (DepositTransfer.CheckDepositForMoneyAmount(sourceDeposit.CurrentSum, depositSumToTransfer))
+            {
+                sourceDeposit.DepositRecalculation(-depositSumToTransfer);
+
+                destinationDeposit.DepositRecalculation(depositSumToTransfer);
+                db.SaveChanges();
+                return "Перевод успешно совершен";
+            }
+            else
+            {
+                return "Перевод Не совершен";
+            }
+        }
+
+        #endregion 
+
     }
 }

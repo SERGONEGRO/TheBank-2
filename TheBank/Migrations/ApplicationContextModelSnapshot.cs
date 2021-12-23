@@ -71,9 +71,6 @@ namespace TheBank2.Migrations
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
 
-                    b.Property<double>("CurrentSum")
-                        .HasColumnType("float");
-
                     b.Property<DateTime>("DateOfStart")
                         .HasColumnType("datetime2");
 
