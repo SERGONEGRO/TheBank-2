@@ -3,16 +3,13 @@ using TheBank2.View;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace TheBank2.ViewModel
 {
-    class DataManageVM : INotifyPropertyChanged
+    internal class DataManageVM : INotifyPropertyChanged
     {
 
         #region СВОЙСТВА
@@ -24,7 +21,7 @@ namespace TheBank2.ViewModel
         public static string PositionName { get; set; }
         public static decimal PositionSalary { get; set; }
         public static int PositionMaxNumber { get; set; }
-        public static Department PositionDepartment { get; set; }
+        public static Department<int> PositionDepartment { get; set; }
         #endregion
 
         #region СВОЙСТВА ДЛЯ ЮЗЕРА
@@ -32,7 +29,7 @@ namespace TheBank2.ViewModel
         public static string UserSurName { get; set; }
         public static string UserPhone { get; set; }
         public static DateTime UserDateOfBirth { get; set; }
-        public static Position UserPosition { get; set; }
+        public static Position<int> UserPosition { get; set; }
         #endregion
 
         #region СВОЙСТВА ДЛЯ КЛИЕНТА
@@ -44,76 +41,76 @@ namespace TheBank2.ViewModel
         #endregion
 
         #region СВОЙСТВА ДЛЯ ДЕПОЗИТА
-        public static Client DepositClient { get; set; }
+        public static Client<int> DepositClient { get; set; }
         public static double DepositPercent { get; set; }
         public static int DepositStartSum { get; set; }
         public static bool DepositIsCapitalized { get; set; }
-        public static User DepositResponsibleEmployee { get; set; }
+        public static User<int> DepositResponsibleEmployee { get; set; }
         public static DateTime DepositDateOfStart { get; set; }
         public static int DepositMonthsCount { get; set; }
-        public static Deposit DestinationDeposit { get; set; }
+        public static Deposit<int> DestinationDeposit { get; set; }
         public static int DepositSumToTransfer { get; set; }
         #endregion
 
         #region СВОЙСТВА ДЛЯ ВЫДЕЛЕННЫХ ЭЛЕМЕНТОВ
 
         public TabItem SelectedTabItem { get; set; }
-        public static Position SelectedPosition { get; set; }
-        public static User SelectedUser { get; set; }
-        public static Department SelectedDepartment { get; set; }
-        public static Client SelectedClient { get; set; }
-        public static Deposit SelectedDeposit { get; set; }
+        public static Position<int> SelectedPosition { get; set; }
+        public static User<int> SelectedUser { get; set; }
+        public static Department<int> SelectedDepartment { get; set; }
+        public static Client<int> SelectedClient { get; set; }
+        public static Deposit<int> SelectedDeposit { get; set; }
         #endregion
 
         /// <summary>
         /// все отделы
         /// </summary>
-        private List<Department> allDepartments = DataWorker.GetAllDepartments();
-        public List<Department> AllDepartments
+        private List<Department<int>> allDepartments = DataWorker.GetAllDepartments();
+        public List<Department<int>> AllDepartments
         {
-            get { return allDepartments; }
+            get => allDepartments;
             set
             {
                 allDepartments = value;
-                NotifyPropertyChanged("AllDepartments");
+                NotifyPropertyChanged(nameof(AllDepartments));
             }
         }
 
         /// <summary>
         /// все позиции
         /// </summary>
-        private List<Position> allPositions = DataWorker.GetAllPositions();
-        public List<Position> AllPositions
+        private List<Position<int>> allPositions = DataWorker.GetAllPositions();
+        public List<Position<int>> AllPositions
         {
-            get { return allPositions; }
+            get => allPositions;
             set
             {
                 allPositions = value;
-                NotifyPropertyChanged("AllPositions");
+                NotifyPropertyChanged(nameof(AllPositions));
             }
         }
 
         /// <summary>
         /// все юзеры
         /// </summary>
-        private List<User> allUsers = DataWorker.GetAllUsers();
-        public List<User> AllUsers
+        private List<User<int>> allUsers = DataWorker.GetAllUsers();
+        public List<User<int>> AllUsers
         {
-            get { return allUsers; }
+            get => allUsers;
             set
             {
                 allUsers = value;
-                NotifyPropertyChanged("AllUsers");
+                NotifyPropertyChanged(nameof(AllUsers));
             }
         }
 
         /// <summary>
         /// все клиенты
         /// </summary>
-        private List<Client> allClients = DataWorker.GetAllClients();
-        public List<Client> AllClients
+        private List<Client<int>> allClients = DataWorker.GetAllClients();
+        public List<Client<int>> AllClients
         {
-            get { return allClients; }
+            get => allClients;
             set
             {
                 allClients = value;
@@ -124,14 +121,14 @@ namespace TheBank2.ViewModel
         /// <summary>
         /// все депозиты
         /// </summary>
-        private List<Deposit> allDeposits = DataWorker.GetAllDeposits();
-        public List<Deposit> AllDeposits
+        private List<Deposit<int>> allDeposits = DataWorker.GetAllDeposits();
+        public List<Deposit<int>> AllDeposits
         {
-            get { return allDeposits; }
+            get => allDeposits;
             set
             {
                 allDeposits = value;
-                NotifyPropertyChanged("AllDeposits");
+                NotifyPropertyChanged(nameof(AllDeposits));
             }
         }
 
@@ -146,10 +143,7 @@ namespace TheBank2.ViewModel
         /// <param name="propertyName"></param>
         private void NotifyPropertyChanged(string propertyName)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
 
@@ -157,7 +151,7 @@ namespace TheBank2.ViewModel
         /// <summary>
         /// Открытие окна добавления департмента
         /// </summary>
-        private void OpenAddDepartmentWindowMethod()
+        private static void OpenAddDepartmentWindowMethod()
         {
             AddNewDepartmentWindow newDepartmentWindow = new();
             SetCenterPositionAndOpen(newDepartmentWindow);
@@ -166,7 +160,7 @@ namespace TheBank2.ViewModel
         /// <summary>
         /// Открытие окна добавления позиции
         /// </summary>
-        private void OpenAddPositionWindowMethod()
+        private static void OpenAddPositionWindowMethod()
         {
             AddNewPositionWindow newPositionWindow = new();
             SetCenterPositionAndOpen(newPositionWindow);
@@ -175,7 +169,7 @@ namespace TheBank2.ViewModel
         /// <summary>
         /// Открытие окна добавления пользователя
         /// </summary>
-        private void OpenAddUserWindowMethod()
+        private static void OpenAddUserWindowMethod()
         {
             AddNewUserWindow newUserWindow = new();
             SetCenterPositionAndOpen(newUserWindow);
@@ -184,7 +178,7 @@ namespace TheBank2.ViewModel
         /// <summary>
         /// Открытие окна добавления клиента
         /// </summary>
-        private void OpenAddClientWindowMethod()
+        private static void OpenAddClientWindowMethod()
         {
             AddNewClientWindow newClientWindow = new();
             SetCenterPositionAndOpen(newClientWindow);
@@ -193,7 +187,7 @@ namespace TheBank2.ViewModel
         /// <summary>
         /// Открытие окна добавления депозита
         /// </summary>
-        private void OpenAddDepositWindowMethod()
+        private static void OpenAddDepositWindowMethod()
         {
             AddNewDepositWindow newDepositWindow = new();
             SetCenterPositionAndOpen(newDepositWindow);
@@ -202,7 +196,7 @@ namespace TheBank2.ViewModel
         /// <summary>
         /// Открытие окна создания перевода
         /// </summary>
-        private void OpenTransferDepositWindowMethod()
+        private static void OpenTransferDepositWindowMethod()
         {
             TransferDepositWindow newTransferDepositWindow = new();
             SetCenterPositionAndOpen(newTransferDepositWindow);
@@ -212,7 +206,7 @@ namespace TheBank2.ViewModel
         /// Открывает окно в центре предыдущего окна
         /// </summary>
         /// <param name="window"></param>
-        private void SetCenterPositionAndOpen(Window window)
+        private static void SetCenterPositionAndOpen(Window window)
         {
             window.Owner = Application.Current.MainWindow;
             window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
@@ -225,7 +219,7 @@ namespace TheBank2.ViewModel
         /// <summary>
         /// Открытие окна редактирования департмента
         /// </summary>
-        private void OpenEditDepartmentWindowMethod(Department department)
+        private static void OpenEditDepartmentWindowMethod(Department<int> department)
         {
             EditDepartmentWindow editDepartmentWindow = new(department);
             SetCenterPositionAndOpen(editDepartmentWindow);
@@ -234,7 +228,7 @@ namespace TheBank2.ViewModel
         /// <summary>
         /// Открытие окна редактирования позиции
         /// </summary>
-        private void OpenEditPositionWindowMethod(Position position)
+        private static void OpenEditPositionWindowMethod(Position<int> position)
         {
             EditPositionWindow editPositionWindow = new(position);
             SetCenterPositionAndOpen(editPositionWindow);
@@ -243,7 +237,7 @@ namespace TheBank2.ViewModel
         /// <summary>
         /// Открытие окна редактирования пользователя
         /// </summary>
-        private void OpenEditUserWindowMethod(User user)
+        private static void OpenEditUserWindowMethod(User<int> user)
         {
             EditUserWindow editUserWindow = new(user);
             SetCenterPositionAndOpen(editUserWindow);
@@ -252,7 +246,7 @@ namespace TheBank2.ViewModel
         /// <summary>
         /// Открытие окна редактирования клиента
         /// </summary>
-        private void OpenEditClientWindowMethod(Client client)
+        private static void OpenEditClientWindowMethod(Client<int> client)
         {
             EditClientWindow editClientWindow = new(client);
             SetCenterPositionAndOpen(editClientWindow);
@@ -261,7 +255,7 @@ namespace TheBank2.ViewModel
         /// <summary>
         /// Открытие окна редактирования депозита
         /// </summary>
-        private void OpenEditDepositWindowMethod(Deposit deposit)
+        private static void OpenEditDepositWindowMethod(Deposit<int> deposit)
         {
             EditDepositWindow editDepositWindow = new(deposit);
             SetCenterPositionAndOpen(editDepositWindow);
@@ -273,7 +267,7 @@ namespace TheBank2.ViewModel
         /// <summary>
         /// Команда открытия окна для создания нового департмента
         /// </summary>
-        private RelayCommand openAddNewDepartmentWnd;
+        private readonly RelayCommand openAddNewDepartmentWnd;
         public RelayCommand OpenAddNewDepartmentWnd
         {
             get
@@ -289,7 +283,7 @@ namespace TheBank2.ViewModel
         /// <summary>
         /// Команда открытия окна для создания новой позиции
         /// </summary>
-        private RelayCommand openAddNewPositionWnd;
+        private readonly RelayCommand openAddNewPositionWnd;
         public RelayCommand OpenAddNewPositionWnd
         {
             get
@@ -305,7 +299,7 @@ namespace TheBank2.ViewModel
         /// <summary>
         /// Команда открытия окна для создания нового юзера
         /// </summary>
-        private RelayCommand openAddNewUserWnd;
+        private readonly RelayCommand openAddNewUserWnd;
         public RelayCommand OpenAddNewUserWnd
         {
             get
@@ -321,7 +315,7 @@ namespace TheBank2.ViewModel
         /// <summary>
         /// Команда открытия окна для создания нового клиента
         /// </summary>
-        private RelayCommand openAddNewClientWnd;
+        private readonly RelayCommand openAddNewClientWnd;
         public RelayCommand OpenAddNewClientWnd
         {
             get
@@ -337,7 +331,7 @@ namespace TheBank2.ViewModel
         /// <summary>
         /// Команда открытия окна для создания нового депозита
         /// </summary>
-        private RelayCommand openAddNewDepositWnd;
+        private readonly RelayCommand openAddNewDepositWnd;
         public RelayCommand OpenAddNewDepositWnd
         {
             get
@@ -350,7 +344,7 @@ namespace TheBank2.ViewModel
             }
         }
 
-        private RelayCommand openTransferDepositWnd;
+        private readonly RelayCommand openTransferDepositWnd;
         public RelayCommand OpenTransferDepositWnd
         {
             get

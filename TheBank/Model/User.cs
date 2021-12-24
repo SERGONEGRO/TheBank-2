@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TheBank2.Model
 {
-    public class User:Person
+    public class User<T> : Person
     {
         #region Свойства
         /// <summary>
         /// id
         /// </summary>
-        public int Id { get; set; }
+        public T Id { get; set; }
 
-        public int PositionId { get; set; }
-        public virtual Position Position { get; set; }
+        public T PositionId { get; set; }
+        public virtual Position<int> Position { get; set; }
 
         /// <summary>
         /// Ставка
@@ -32,13 +27,7 @@ namespace TheBank2.Model
         /// Получение позиции для данного сотрудника
         /// </summary>
         [NotMapped]
-        public Position UserPosition
-        {
-            get
-            {
-                return DataWorker.GetPositionById(PositionId);
-            }
-        }
+        public Position<int> UserPosition => DataWorker.GetPositionById(PositionId);
 
         #endregion
     }

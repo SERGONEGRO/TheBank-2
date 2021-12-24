@@ -10,7 +10,7 @@ namespace TheBank2.View
     /// </summary>
     public partial class EditPositionWindow : Window
     {
-        public EditPositionWindow(Position positionToEdit)
+        public EditPositionWindow(Position<int> positionToEdit)
         {
             InitializeComponent();
             DataContext = new DataManageVM();
@@ -22,7 +22,7 @@ namespace TheBank2.View
         }
         private void PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
-            Regex regex = new Regex("[^0-9]+");
+            Regex regex = new("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
     }

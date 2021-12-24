@@ -1,23 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-
+﻿
 namespace TheBank2.Model
 {
-    //interface ICheckable<T>
-    //{
-    //    bool CheckDepositForMoneyAmount(T MoneyOnSourceDeposit, T RequiredMoney);
-    //}
-
-    static class DepositTransfer//<T> : ICheckable<T>
+    internal static class DepositTransfer
     {
-        public static  bool CheckDepositForMoneyAmount(Double MoneyOnSourceDeposit, Double RequiredMoney)
+        public static bool CheckDepositForMoneyAmount(double MoneyOnSourceDeposit, double RequiredMoney)
         {
-            if (RequiredMoney <= MoneyOnSourceDeposit) { return true; }
-            else return false;
+            return RequiredMoney <= MoneyOnSourceDeposit;
         }
     }
 }

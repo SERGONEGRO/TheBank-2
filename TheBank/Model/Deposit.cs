@@ -1,24 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TheBank2.Model
 {
-    public class Deposit
+    public class Deposit<T>
     {
         /// <summary>
         /// id
         /// </summary>
-        public int Id { get; set; }
+        public T Id { get; set; }
 
         public int ClientId { get; set; }
         /// <summary>
         /// Вкладчик
         /// </summary>
-        public virtual Client Client { get; set; }
+        public virtual Client<int> Client { get; set; }
 
         /// <summary>
         /// Процент вклада
@@ -39,24 +35,12 @@ namespace TheBank2.Model
         /// Текущая сумма
         /// </summary>
         [NotMapped]
-        public double CurrentSum 
+        public double CurrentSum
         {
             get
             {
-                int monthsLeft;
-                if (DateOfEnd < DateTime.Now) { monthsLeft = MonthsCount; }
-                else
-                {
-                    monthsLeft = MonthCalculate();
-                }
-                if (IsCapitalized)
-                {
-                    return CalculationWithCapitalizing(monthsLeft);
-                }
-                else
-                {
-                    return CalculationWithoutCapitalizing(monthsLeft);
-                }
+                int monthsLeft = DateOfEnd < DateTime.Now ? MonthsCount : MonthCalculate();
+                return IsCapitalized ? CalculationWithCapitalizing(monthsLeft) : CalculationWithoutCapitalizing(monthsLeft);
             }
             set { }
         }
@@ -72,26 +56,16 @@ namespace TheBank2.Model
                 TimeSpan timeSpan = DateTime.Now - DateOfStart;
                 return timeSpan.Days / 30;
             }
-            else return 0;
+            else
+            {
+                return 0;
+            }
         }
         /// <summary>
         /// сумма по окончанию вклада
         /// </summary>
         [NotMapped]
-        public double EndSum
-        {
-            get
-            {
-                if (IsCapitalized)
-                {
-                    return CalculationWithCapitalizing(MonthsCount);
-                }
-                else
-                {
-                    return CalculationWithoutCapitalizing(MonthsCount);
-                }
-            }
-        }
+        public double EndSum => IsCapitalized ? CalculationWithCapitalizing(MonthsCount) : CalculationWithoutCapitalizing(MonthsCount);
 
         /// <summary>
         /// Вычисление суммы депозита по количеству месяцев без капитализации
@@ -103,9 +77,9 @@ namespace TheBank2.Model
             //если VIP - +1%
             if (DepositClient.IsVIP) { DepositPercent++; }
             double result = StartSum;
-            for(int i = 0; i< months;i++)
+            for (int i = 0; i < months; i++)
             {
-                result = result + (StartSum * DepositPercent / 100 / 12);
+                result += StartSum * DepositPercent / 100 / 12;
             }
             return result;
         }
@@ -122,7 +96,7 @@ namespace TheBank2.Model
             double result = StartSum;
             for (int i = 0; i < months; i++)
             {
-                result = result + (result * DepositPercent / 100 / 12);
+                result += result * DepositPercent / 100 / 12;
             }
             return result;
         }
@@ -152,42 +126,24 @@ namespace TheBank2.Model
         /// <summary>
         /// Дата окончания вклада
         /// </summary>
-        public DateTime DateOfEnd
-        {
-            get
-            {
-                return DateOfStart.AddMonths(MonthsCount);
-            }
-        }
+        public DateTime DateOfEnd => DateOfStart.AddMonths(MonthsCount);
 
         public int ResponsibleEmployeeId { get; set; }
         /// <summary>
         /// Ответственный сотрудник
         /// </summary>
-        public virtual User ResponsibleEmployee { get; set; }
+        public virtual User<int> ResponsibleEmployee { get; set; }
 
         /// <summary>
         /// свойство ищущее ответственного сотрудника, привязанного к данному депозиту
         /// </summary>
         [NotMapped]
-        public User DepositUser
-        {
-            get
-            {
-                return DataWorker.GetUserByResponsibleEmployeeId(ResponsibleEmployeeId);
-            }
-        }
+        public User<int> DepositUser => DataWorker.GetUserByResponsibleEmployeeId(ResponsibleEmployeeId);
         /// <summary>
         /// свойство ищущее клиента данного депозита
         /// </summary>
         [NotMapped]
-        public Client DepositClient
-        {
-            get
-            {
-                return DataWorker.GetClientByClientId(ClientId);
-            }
-        }
+        public Client<int> DepositClient => DataWorker.GetClientByClientId(ClientId);
     }
 }
 

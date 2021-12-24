@@ -13,10 +13,10 @@ namespace TheBank2.Model
         /// Получить все департаменты
         /// </summary>
         /// <returns></returns>
-        public static List<Department> GetAllDepartments()
+        public static List<Department<int>> GetAllDepartments()
         {
             using ApplicationContext db = new();
-            List<Department> result = db.Departments.ToList();
+            List<Department<int>> result = db.Departments.ToList();
             return result;
         }
 
@@ -24,10 +24,10 @@ namespace TheBank2.Model
         /// Получить все позиции
         /// </summary>
         /// <returns></returns>
-        public static List<Position> GetAllPositions()
+        public static List<Position<int>> GetAllPositions()
         {
             using ApplicationContext db = new();
-            List<Position> result = db.Positions.ToList();
+            List<Position<int>> result = db.Positions.ToList();
             return result;
         }
 
@@ -35,39 +35,33 @@ namespace TheBank2.Model
         /// Получить всех сотрудников
         /// </summary>
         /// <returns></returns>
-        public static List<User> GetAllUsers()
+        public static List<User<int>> GetAllUsers()
         {
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                var result = db.Users.ToList();
-                return result;
-            }
+            using ApplicationContext db = new();
+            List<User<int>> result = db.Users.ToList();
+            return result;
         }
 
         /// <summary>
         /// Получить всех клиентов
         /// </summary>
         /// <returns></returns>
-        public static List<Client> GetAllClients()
+        public static List<Client<int>> GetAllClients()
         {
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                var result = db.Clients.ToList();
-                return result;
-            }
+            using ApplicationContext db = new();
+            List<Client<int>> result = db.Clients.ToList();
+            return result;
         }
 
         /// <summary>
         /// Получить все депозиты
         /// </summary>
         /// <returns></returns>
-        public static List<Deposit> GetAllDeposits()
+        public static List<Deposit<int>> GetAllDeposits()
         {
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                var result = db.Deposits.ToList();
-                return result;
-            }
+            using ApplicationContext db = new();
+            List<Deposit<int>> result = db.Deposits.ToList();
+            return result;
         }
 
         /// <summary>
@@ -75,13 +69,11 @@ namespace TheBank2.Model
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static Position GetPositionById( int id)
+        public static Position<int> GetPositionById<T>(T id)
         {
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                Position pos = db.Positions.FirstOrDefault(p => p.Id == id);
-                return pos;
-            }
+            using ApplicationContext db = new();
+            Position<int> pos = db.Positions.FirstOrDefault(p => p.Id == Convert.ToInt32(id));
+            return pos;
         }
 
         /// <summary>
@@ -89,39 +81,33 @@ namespace TheBank2.Model
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static Department GetDepartmentById(int id)
+        public static Department<int> GetDepartmentById(int id)
         {
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                Department dep = db.Departments.FirstOrDefault(d => d.Id == id);
-                return dep;
-            }
+            using ApplicationContext db = new();
+            Department<int> dep = db.Departments.FirstOrDefault(d => d.Id == id);
+            return dep;
         }
         /// <summary>
         /// Получение пользователей по id позиции
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static List<User> GetAllUserstByPositionId(int id)
+        public static List<User<int>> GetAllUserstByPositionId<T>(T id)
         {
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                List<User> users = (from user in GetAllUsers() where user.PositionId == id select user).ToList();
-                return users;
-            }
+            using ApplicationContext db = new();
+            List<User<int>> users = (from user in GetAllUsers() where user.PositionId == Convert.ToInt32(id) select user).ToList();
+            return users;
         }
         /// <summary>
         /// Получение позиций по id департамента
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static List<Position> GetAllPositionsByDepartmentId(int id)
+        public static List<Position<int>> GetAllPositionsByDepartmentId<T>(T id)
         {
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                List<Position> positions = (from position in GetAllPositions() where position.DepartmentId == id select position).ToList();
-                return positions;
-            }
+            using ApplicationContext db = new();
+            List<Position<int>> positions = (from position in GetAllPositions() where position.DepartmentId == Convert.ToInt32(id) select position).ToList();
+            return positions;
 
         }
         /// <summary>
@@ -129,13 +115,11 @@ namespace TheBank2.Model
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static User GetUserByResponsibleEmployeeId(int id)
+        public static User<int> GetUserByResponsibleEmployeeId(int id)
         {
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                User user = db.Users.FirstOrDefault(d => d.Id == id);
-                return user;
-            }
+            using ApplicationContext db = new();
+            User<int> user = db.Users.FirstOrDefault(d => d.Id == id);
+            return user;
         }
 
         /// <summary>
@@ -143,13 +127,11 @@ namespace TheBank2.Model
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static Client GetClientByClientId(int id)
+        public static Client<int> GetClientByClientId(int id)
         {
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                Client client = db.Clients.FirstOrDefault(d => d.Id == id);
-                return client;
-            }
+            using ApplicationContext db = new();
+            Client<int> client = db.Clients.FirstOrDefault(d => d.Id == id);
+            return client;
         }
 
         #endregion
@@ -164,51 +146,47 @@ namespace TheBank2.Model
         public static string CreateDepartment(string name)
         {
             string result = "Уже существует";
-            using(ApplicationContext db = new ApplicationContext())
+            using ApplicationContext db = new();
+            //проверяем, суще ли отдел
+            bool checkIsExist = db.Departments.Any(el => el.Name == name);
+            if (!checkIsExist)
             {
-                //проверяем, суще ли отдел
-                bool checkIsExist = db.Departments.Any(el => el.Name == name);
-                if(!checkIsExist)
-                {
-                    Department newDepartment = new Department { Name = name };
-                    db.Departments.Add(newDepartment);
-                    db.SaveChanges();
-                    result = "Сделано!";
-                }
-                return result;
+                Department<int> newDepartment = new() { Name = name };
+                db.Departments.Add(newDepartment);
+                db.SaveChanges();
+                result = "Сделано!";
             }
+            return result;
         }
 
         /// <summary>
         /// Создать позицию
         /// </summary>
         /// <param name="name"></param>
-        /// <param name="salary"></param>
+        /// <param name="salary"></param>м
         /// <param name="maxnumber"></param>
         /// <param name="department"></param>
         /// <returns></returns>
-        public static string CreatePosition(string name,decimal salary, int maxnumber,Department department)
+        public static string CreatePosition(string name, decimal salary, int maxnumber, Department<int> department)
         {
             string result = "Уже существует";
-            using (ApplicationContext db = new ApplicationContext())
+            using ApplicationContext db = new();
+            //проверяем, суще ли позиция
+            bool checkIsExist = db.Positions.Any(el => el.Name == name && el.Salary == salary);
+            if (!checkIsExist)
             {
-                //проверяем, суще ли позиция
-                bool checkIsExist = db.Positions.Any(el => el.Name == name && el.Salary == salary);
-                if (!checkIsExist)
+                Position<int> newPosition = new()
                 {
-                    Position newPosition = new Position
-                    {
-                        Name = name,
-                        Salary = salary,
-                        MaxNumber = maxnumber,
-                        DepartmentId = department.Id
-                    };
-                    db.Positions.Add(newPosition);
-                    db.SaveChanges();
-                    result = "Сделано!";
-                }
-                return result;
+                    Name = name,
+                    Salary = salary,
+                    MaxNumber = maxnumber,
+                    DepartmentId = department.Id
+                };
+                db.Positions.Add(newPosition);
+                db.SaveChanges();
+                result = "Сделано!";
             }
+            return result;
         }
 
         /// <summary>
@@ -220,29 +198,27 @@ namespace TheBank2.Model
         /// <param name="position"></param>
         /// <param name="dateOfBirth"></param>
         /// <returns></returns>
-        public static string CreateUser(string name,string surName, string phone, Position position, DateTime dateOfBirth)
+        public static string CreateUser(string name, string surName, string phone, Position<int> position, DateTime dateOfBirth)
         {
             string result = "Уже существует";
-            using (ApplicationContext db = new ApplicationContext())
+            using ApplicationContext db = new();
+            //проверяем, суще ли сотрудник
+            bool checkIsExist = db.Users.Any(el => el.Name == name && el.SurName == surName && el.Position == position);
+            if (!checkIsExist)
             {
-                //проверяем, суще ли сотрудник
-                bool checkIsExist = db.Users.Any(el => el.Name == name && el.SurName == surName && el.Position == position);
-                if (!checkIsExist)
+                User<int> newUser = new()
                 {
-                    User newUser = new()
-                    {
-                        Name = name,
-                        SurName = surName,
-                        Phone = phone,
-                        PositionId = position.Id,
-                        DateOfBirth = dateOfBirth
-                    };
-                    db.Users.Add(newUser);
-                    db.SaveChanges();
-                    result = "Сделано!";
-                }
-                return result;
+                    Name = name,
+                    SurName = surName,
+                    Phone = phone,
+                    PositionId = position.Id,
+                    DateOfBirth = dateOfBirth
+                };
+                db.Users.Add(newUser);
+                db.SaveChanges();
+                result = "Сделано!";
             }
+            return result;
         }
 
         /// <summary>
@@ -257,26 +233,24 @@ namespace TheBank2.Model
         public static string CreateClient(string name, string surName, string phone, bool isVip, DateTime dateOfBirth)
         {
             string result = "Уже существует";
-            using (ApplicationContext db = new ApplicationContext())
+            using ApplicationContext db = new();
+            //проверяем, суще ли клиент
+            bool checkIsExist = db.Clients.Any(el => el.Name == name && el.SurName == surName);
+            if (!checkIsExist)
             {
-                //проверяем, суще ли клиент
-                bool checkIsExist = db.Clients.Any(el => el.Name == name && el.SurName == surName);
-                if (!checkIsExist)
+                Client<int> newClient = new()
                 {
-                    Client newClient = new()
-                    {
-                        Name = name,
-                        SurName = surName,
-                        Phone = phone,
-                        IsVIP = isVip,
-                        DateOfBirth = dateOfBirth
-                    };
-                    db.Clients.Add(newClient);
-                    db.SaveChanges();
-                    result = "Сделано!";
-                }
-                return result;
+                    Name = name,
+                    SurName = surName,
+                    Phone = phone,
+                    IsVIP = isVip,
+                    DateOfBirth = dateOfBirth
+                };
+                db.Clients.Add(newClient);
+                db.SaveChanges();
+                result = "Сделано!";
             }
+            return result;
         }
 
         /// <summary>
@@ -290,28 +264,25 @@ namespace TheBank2.Model
         /// <param name="monthsCount"></param>
         /// <param name="responsibleEmployee"></param>
         /// <returns></returns>
-        public static string CreateDeposit(Client client, double depositPercent, int startSum, bool isCapitalized,
-            DateTime dateOfStart, int monthsCount, User responsibleEmployee)
+        public static string CreateDeposit(Client<int> client, double depositPercent, int startSum, bool isCapitalized,
+            DateTime dateOfStart, int monthsCount, User<int> responsibleEmployee)
         {
-            string result = "Уже существует";
-            using (ApplicationContext db = new())
+            using ApplicationContext db = new();
+            //  НЕ проверяем, суще ли Депозит
+            Deposit<int> newDeposit = new()
             {
-                //  НЕ проверяем, суще ли Депозит
-                Deposit newDeposit = new()
-                {
-                    ClientId  = client.Id,
-                    DepositPercent  = depositPercent,
-                    StartSum = startSum,
-                    IsCapitalized = isCapitalized,
-                    DateOfStart = dateOfStart,
-                    MonthsCount = monthsCount,
-                    ResponsibleEmployeeId = responsibleEmployee.Id
-                };
-                db.Deposits.Add(newDeposit);
-                db.SaveChanges();
-                result = "Сделано!";
-                return result;
-            }
+                ClientId = client.Id,
+                DepositPercent = depositPercent,
+                StartSum = startSum,
+                IsCapitalized = isCapitalized,
+                DateOfStart = dateOfStart,
+                MonthsCount = monthsCount,
+                ResponsibleEmployeeId = responsibleEmployee.Id
+            };
+            db.Deposits.Add(newDeposit);
+            db.SaveChanges();
+            string result = "Сделано!";
+            return result;
         }
 
         #endregion
@@ -322,10 +293,10 @@ namespace TheBank2.Model
         /// </summary>
         /// <param name="department"></param>
         /// <returns></returns>
-        public static string DeleteDepartment(Department department)
+        public static string DeleteDepartment(Department<int> department)
         {
             string result = "Такого отдела не существует";
-            using (ApplicationContext db = new ApplicationContext())
+            using (ApplicationContext db = new())
             {
                 db.Departments.Remove(department);
                 db.SaveChanges();
@@ -339,10 +310,10 @@ namespace TheBank2.Model
         /// </summary>
         /// <param name="position"></param>
         /// <returns></returns>
-        public static string DeletePosition(Position position)
+        public static string DeletePosition(Position<int> position)
         {
             string result = "Такой позиции не существует";
-            using (ApplicationContext db = new ApplicationContext())
+            using (ApplicationContext db = new())
             {
                 db.Positions.Remove(position);
                 db.SaveChanges();
@@ -356,10 +327,10 @@ namespace TheBank2.Model
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public static string DeleteUser(User user)
+        public static string DeleteUser(User<int> user)
         {
             string result = "Такой позиции не существует";
-            using (ApplicationContext db = new ApplicationContext())
+            using (ApplicationContext db = new())
             {
                 db.Users.Remove(user);
                 db.SaveChanges();
@@ -373,10 +344,10 @@ namespace TheBank2.Model
         /// </summary>
         /// <param name="client"></param>
         /// <returns></returns>
-        public static string DeleteClient(Client client)
+        public static string DeleteClient(Client<int> client)
         {
             string result = "Такой позиции не существует";
-            using (ApplicationContext db = new ApplicationContext())
+            using (ApplicationContext db = new())
             {
                 db.Clients.Remove(client);
                 db.SaveChanges();
@@ -390,10 +361,10 @@ namespace TheBank2.Model
         /// </summary>
         /// <param name="deposit"></param>
         /// <returns></returns>
-        public static string DeleteDeposit(Deposit deposit)
+        public static string DeleteDeposit(Deposit<int> deposit)
         {
             string result = "Такой позиции не существует";
-            using (ApplicationContext db = new ApplicationContext())
+            using (ApplicationContext db = new())
             {
                 db.Deposits.Remove(deposit);
                 db.SaveChanges();
@@ -409,12 +380,12 @@ namespace TheBank2.Model
         /// </summary>
         /// <param name="department"></param>
         /// <returns></returns>
-        public static string EditDepartment(Department oldDepartment, string newName)
+        public static string EditDepartment(Department<int> oldDepartment, string newName)
         {
             string result = "Такого отдела не существует";
             using (ApplicationContext db = new())
             {
-                Department department = db.Departments.FirstOrDefault(d => d.Id == oldDepartment.Id);
+                Department<int> department = db.Departments.FirstOrDefault(d => d.Id == oldDepartment.Id);
                 department.Name = newName;
                 db.SaveChanges();
                 result = "Сделано! Отдел " + department.Name + "изменен";
@@ -427,13 +398,13 @@ namespace TheBank2.Model
         /// </summary>
         /// <param name="position"></param>
         /// <returns></returns>
-        public static string EditPosition(Position oldPosition,string newName,int newMaxNumber, decimal newSalary, Department newDepartment)
+        public static string EditPosition(Position<int> oldPosition, string newName, int newMaxNumber, decimal newSalary, Department<int> newDepartment)
         {
             string result = "Такой позиции не существует";
             ApplicationContext applicationContext = new();
             using (ApplicationContext db = applicationContext)
             {
-                Position position = db.Positions.FirstOrDefault(p => p.Id == oldPosition.Id);
+                Position<int> position = db.Positions.FirstOrDefault(p => p.Id == oldPosition.Id);
                 position.Name = newName;
                 position.Salary = newSalary;
                 position.MaxNumber = newMaxNumber;
@@ -454,12 +425,12 @@ namespace TheBank2.Model
         /// <param name="newPosition"></param>
         /// <param name="newDateOfBirth"></param>
         /// <returns></returns>
-        public static string EditUser(User oldUser, string newName, string newSurName, string newPhone, Position newPosition, DateTime newDateOfBirth)
+        public static string EditUser(User<int> oldUser, string newName, string newSurName, string newPhone, Position<int> newPosition, DateTime newDateOfBirth)
         {
             string result = "Такого сотрудника не существует";
             using (ApplicationContext db = new())
             {
-                User user = db.Users.FirstOrDefault(p => p.Id == oldUser.Id);
+                User<int> user = db.Users.FirstOrDefault(p => p.Id == oldUser.Id);
                 if (user != null)
                 {
                     user.Name = newName;
@@ -484,12 +455,12 @@ namespace TheBank2.Model
         /// <param name="newIsVip"></param>
         /// <param name="newDateOfBirth"></param>
         /// <returns></returns>
-        public static string EditClient(Client oldClient, string newName, string newSurName, string newPhone, bool newIsVip, DateTime newDateOfBirth)
+        public static string EditClient(Client<int> oldClient, string newName, string newSurName, string newPhone, bool newIsVip, DateTime newDateOfBirth)
         {
             string result = "Такого клиента не существует";
             using (ApplicationContext db = new())
             {
-                Client client = db.Clients.FirstOrDefault(p => p.Id == oldClient.Id);
+                Client<int> client = db.Clients.FirstOrDefault(p => p.Id == oldClient.Id);
                 if (client != null)
                 {
                     client.Name = newName;
@@ -516,13 +487,13 @@ namespace TheBank2.Model
         /// <param name="newMonthsCount"></param>
         /// <param name="newResponsibleEmployee"></param>
         /// <returns></returns>
-        public static string EditDeposit(Deposit oldDeposit, Client newClient, double newDepositPercent, int newStartSum, bool newIsCapitalized,
-            DateTime newDateOfStart, int newMonthsCount, User newResponsibleEmployee)
+        public static string EditDeposit(Deposit<int> oldDeposit, Client<int> newClient, double newDepositPercent, int newStartSum, bool newIsCapitalized,
+            DateTime newDateOfStart, int newMonthsCount, User<int> newResponsibleEmployee)
         {
             string result = "Такого Депозита не существует";
             using (ApplicationContext db = new())
             {
-                Deposit deposit = db.Deposits.FirstOrDefault(p => p.Id == oldDeposit.Id);
+                Deposit<int> deposit = db.Deposits.FirstOrDefault(p => p.Id == oldDeposit.Id);
                 if (deposit != null)
                 {
                     deposit.Client = newClient;
@@ -550,8 +521,8 @@ namespace TheBank2.Model
         internal static string TransferDeposit(int sourceDepositId, int destinationDepositId, int depositSumToTransfer)
         {
             using ApplicationContext db = new();
-            Deposit sourceDeposit = db.Deposits.FirstOrDefault(p => p.Id == sourceDepositId);
-            Deposit destinationDeposit = db.Deposits.FirstOrDefault(p => p.Id == destinationDepositId);
+            Deposit<int> sourceDeposit = db.Deposits.FirstOrDefault(p => p.Id == sourceDepositId);
+            Deposit<int> destinationDeposit = db.Deposits.FirstOrDefault(p => p.Id == destinationDepositId);
             if (DepositTransfer.CheckDepositForMoneyAmount(sourceDeposit.CurrentSum, depositSumToTransfer))
             {
                 sourceDeposit.DepositRecalculation(-depositSumToTransfer);

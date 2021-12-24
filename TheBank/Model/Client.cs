@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace TheBank2.Model
 {
-    public class Client :Person
+    public class Client<T> : Person
     {
-        public int Id { get; set; }
+        public T Id { get; set; }
 
         public bool IsVIP { get; set; }
 

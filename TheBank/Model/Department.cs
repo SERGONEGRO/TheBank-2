@@ -1,28 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TheBank2.Model
 {
-    public class Department
+    public class Department<T>
     {
-        public int Id { get; set; }
+        public T Id { get; set; }
         public string Name { get; set; }
-        public List<Position> Positions { get; set; }
+        public List<Position<int>> Positions { get; set; }
 
         /// <summary>
         /// свойство ищущее список позиций, привязанных к департаменту
         /// </summary>
         [NotMapped]
-        public List<Position> DepartmentPositions
-        {
-            get
-            {
-                return DataWorker.GetAllPositionsByDepartmentId(Id);
-            }
-        }
+        public List<Position<int>> DepartmentPositions => DataWorker.GetAllPositionsByDepartmentId(Id);
     }
 }

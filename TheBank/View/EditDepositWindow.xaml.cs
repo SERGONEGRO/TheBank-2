@@ -9,7 +9,7 @@ namespace TheBank2.View
     /// </summary>
     public partial class EditDepositWindow : Window
     {
-        public EditDepositWindow(Deposit depositToEdit)
+        public EditDepositWindow(Deposit<int> depositToEdit)
         {
             InitializeComponent();
             DataContext = new DataManageVM();
@@ -24,7 +24,7 @@ namespace TheBank2.View
         }
         private void PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
-            Regex regex = new Regex("[^0-9]+");
+            Regex regex = new("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
     }

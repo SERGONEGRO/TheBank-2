@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TheBank2.Model
 {
@@ -20,7 +16,7 @@ namespace TheBank2.Model
         /// <summary>
         /// Фамилия+Имя
         /// </summary>
-        public string FullName { get { return Name + " " + SurName; } }
+        public string FullName => Name + " " + SurName;
         /// <summary>
         /// телефон
         /// </summary>
@@ -33,12 +29,17 @@ namespace TheBank2.Model
             get
             {
                 if (DateTime.Now <= DateOfBirth)
+                {
                     return 0;
+                }
+
                 int n = DateTime.Now.Year - DateOfBirth.Year;
                 if (DateOfBirth.DayOfYear > DateTime.Now.DayOfYear)
+                {
                     --n;
-                if (n > 99) return 99;
-                return (byte)n;
+                }
+
+                return n > 99 ? (byte)99 : (byte)n;
             }
         }
 
