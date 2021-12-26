@@ -5,8 +5,11 @@ using TheBank2.Data;
 
 namespace TheBank2.Model
 {
-    internal class DataWorker
+    class DataWorker
     {
+        public delegate void DepositHandler(string message);
+        public static event DepositHandler Notify;
+
         #region МЕТОДЫ, ВОЗВРАЩАЮЩИЕ ЗНАЧЕНИЯ
 
         /// <summary>
@@ -264,7 +267,7 @@ namespace TheBank2.Model
         /// <param name="monthsCount"></param>
         /// <param name="responsibleEmployee"></param>
         /// <returns></returns>
-        public static string CreateDeposit(Client<int> client, double depositPercent, int startSum, bool isCapitalized,
+        public static void CreateDeposit(Client<int> client, double depositPercent, int startSum, bool isCapitalized,
             DateTime dateOfStart, int monthsCount, User<int> responsibleEmployee)
         {
             using ApplicationContext db = new();
@@ -281,8 +284,8 @@ namespace TheBank2.Model
             };
             db.Deposits.Add(newDeposit);
             db.SaveChanges();
-            string result = "Сделано!";
-            return result;
+            //вызываем событие
+            Notify?.Invoke($"{newDeposit.DateOfStart} Создан депозит №{newDeposit.Id} на имя: {client.FullName} на сумму {newDeposit.StartSum}$.");
         }
 
         #endregion
@@ -361,16 +364,16 @@ namespace TheBank2.Model
         /// </summary>
         /// <param name="deposit"></param>
         /// <returns></returns>
-        public static string DeleteDeposit(Deposit<int> deposit)
+        public static void DeleteDeposit(Deposit<int> deposit)
         {
-            string result = "Такой позиции не существует";
+            int id = deposit.Id;   //для лога
             using (ApplicationContext db = new())
             {
                 db.Deposits.Remove(deposit);
                 db.SaveChanges();
-                result = "Сделано! Депозит " + deposit.Id + "удален";
             }
-            return result;
+            //вызываем событие
+            Notify?.Invoke($"{DateTime.Now} Депозит №{id} удален from dataworker ");
         }
         #endregion
 
@@ -487,13 +490,14 @@ namespace TheBank2.Model
         /// <param name="newMonthsCount"></param>
         /// <param name="newResponsibleEmployee"></param>
         /// <returns></returns>
-        public static string EditDeposit(Deposit<int> oldDeposit, Client<int> newClient, double newDepositPercent, int newStartSum, bool newIsCapitalized,
+        public static void EditDeposit(Deposit<int> oldDeposit, Client<int> newClient, double newDepositPercent, int newStartSum, bool newIsCapitalized,
             DateTime newDateOfStart, int newMonthsCount, User<int> newResponsibleEmployee)
         {
             string result = "Такого Депозита не существует";
             using (ApplicationContext db = new())
             {
                 Deposit<int> deposit = db.Deposits.FirstOrDefault(p => p.Id == oldDeposit.Id);
+                int id = deposit.Id;            //для лога
                 if (deposit != null)
                 {
                     deposit.Client = newClient;
@@ -506,10 +510,13 @@ namespace TheBank2.Model
                     db.SaveChanges();
                     result = "Сделано! Депозит " + deposit.Id + "Изменен";
                 }
+                //вызываем событие
+                Notify?.Invoke($"{DateTime.Now} Депозит №{id} отредактирован.");
             }
-            return result;
+            
         }
         #endregion
+
         #region МЕТОД ПЕРЕВОДА ДЕПОЗИТА
         /// <summary>
         /// Переводит депозит
@@ -518,22 +525,25 @@ namespace TheBank2.Model
         /// <param name="destinationDepositId"></param>
         /// <param name="depositSumToTransfer"></param>
         /// <returns></returns>
-        internal static string TransferDeposit(int sourceDepositId, int destinationDepositId, int depositSumToTransfer)
+        internal static void TransferDeposit(int sourceDepositId, int destinationDepositId, int depositSumToTransfer)
         {
             using ApplicationContext db = new();
             Deposit<int> sourceDeposit = db.Deposits.FirstOrDefault(p => p.Id == sourceDepositId);
             Deposit<int> destinationDeposit = db.Deposits.FirstOrDefault(p => p.Id == destinationDepositId);
+            int sourceId = sourceDeposit.Id;            //для лога
+            int destinationID = destinationDeposit.Id;  //для лога
             if (DepositTransfer.CheckDepositForMoneyAmount(sourceDeposit.CurrentSum, depositSumToTransfer))
             {
                 sourceDeposit.DepositRecalculation(-depositSumToTransfer);
-
                 destinationDeposit.DepositRecalculation(depositSumToTransfer);
                 db.SaveChanges();
-                return "Перевод успешно совершен";
+                //вызываем событие
+                Notify?.Invoke($"{DateTime.Now} Совершен перевод со счёта №{sourceId} на счёт № {destinationID} на сумму {depositSumToTransfer}$.");
             }
             else
             {
-                return "Перевод Не совершен";
+                //вызываем событие
+                Notify?.Invoke($"{DateTime.Now} Перевод со счёта №{sourceId} на счёт № {destinationID} на сумму {depositSumToTransfer}$ не совершен!");
             }
         }
 

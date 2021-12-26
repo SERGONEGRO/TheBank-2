@@ -6,11 +6,13 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.IO;
 
 namespace TheBank2.ViewModel
 {
     internal class DataManageVM : INotifyPropertyChanged
     {
+        
 
         #region СВОЙСТВА
         #region СВОЙСТВА ДЛЯ ДЕПАРТАМЕНТА
@@ -526,13 +528,16 @@ namespace TheBank2.ViewModel
         /// <summary>
         /// Добавление депозита
         /// </summary>
-        private RelayCommand addNewDeposit;
+        private readonly RelayCommand addNewDeposit;
         public RelayCommand AddNewDeposit
         {
             get
             {
                 return addNewDeposit ?? new RelayCommand(obj =>
                 {
+                    //Подписываемся на событие
+                    DataWorker.Notify += ShowMessageToUser;
+                    DataWorker.Notify += WriteToLog;
                     Window wnd = obj as Window;
                     string resultStr = "";
                     if (DepositClient == null)
@@ -566,10 +571,9 @@ namespace TheBank2.ViewModel
                     }
                     else
                     {
-                        resultStr = DataWorker.CreateDeposit(DepositClient, DepositPercent, DepositStartSum, DepositIsCapitalized,
+                        DataWorker.CreateDeposit(DepositClient, DepositPercent, DepositStartSum, DepositIsCapitalized,
                             DepositDateOfStart, DepositMonthsCount, DepositResponsibleEmployee);
                         UpdateAllDataView();
-                        ShowMessageToUser(resultStr);
                         SetNullValuesToProperties();
                         wnd.Close();
                     }
@@ -749,6 +753,9 @@ namespace TheBank2.ViewModel
             {
                 return editDeposit ?? new RelayCommand(obj =>
                 {
+                    //Подписываемся на событие
+                    DataWorker.Notify += ShowMessageToUser;
+                    DataWorker.Notify += WriteToLog;
                     Window window = obj as Window;
                     string resultStr = "Не выбран депозит";
                     string noClientStr = "Не выбран новый клиент или ответственный сотрудник";
@@ -756,11 +763,11 @@ namespace TheBank2.ViewModel
                     {
                         if (DepositClient != null && DepositResponsibleEmployee !=null)
                         {
-                            resultStr = DataWorker.EditDeposit(SelectedDeposit,DepositClient,DepositPercent,
+                            DataWorker.EditDeposit(SelectedDeposit,DepositClient,DepositPercent,
                                 DepositStartSum,DepositIsCapitalized,DepositDateOfStart,DepositMonthsCount,DepositResponsibleEmployee);
                             UpdateAllDataView();
                             SetNullValuesToProperties();
-                            ShowMessageToUser(resultStr);
+                            //ShowMessageToUser(resultStr);
                             window.Close();
                         }
                         else ShowMessageToUser(noClientStr);
@@ -780,6 +787,9 @@ namespace TheBank2.ViewModel
             {
                 return transferDeposit ?? new RelayCommand(obj =>
                 {
+                    //Подписываемся на событие
+                    DataWorker.Notify += ShowMessageToUser;
+                    DataWorker.Notify += WriteToLog;
                     Window window = obj as Window;
                     string resultStr = "Не выбран депозит";
                     string noSumToTransfer = "Не выбрана сумма перевода или счет перевода";
@@ -787,10 +797,10 @@ namespace TheBank2.ViewModel
                     {
                         if (DestinationDeposit != null && DepositSumToTransfer > 0)
                         {
-                            resultStr = DataWorker.TransferDeposit(SelectedDeposit.Id, DestinationDeposit.Id, DepositSumToTransfer);
+                            DataWorker.TransferDeposit(SelectedDeposit.Id, DestinationDeposit.Id, DepositSumToTransfer);
                             UpdateAllDataView();
                             SetNullValuesToProperties();
-                            ShowMessageToUser(resultStr);
+                            //ShowMessageToUser(resultStr);
                             window.Close();
                         }
                         else ShowMessageToUser(noSumToTransfer);
@@ -837,12 +847,15 @@ namespace TheBank2.ViewModel
                     //если депозит
                     if (SelectedTabItem.Name == "DepositsTab" && SelectedDeposit != null)
                     {
-                        resultStr = DataWorker.DeleteDeposit(SelectedDeposit);
+                        //Подписываемся на события
+                        DataWorker.Notify += ShowMessageToUser;
+                        DataWorker.Notify += WriteToLog;
+                        DataWorker.DeleteDeposit(SelectedDeposit);
                         UpdateAllDataView();
                     }
                     //обновление
                     SetNullValuesToProperties();
-                    ShowMessageToUser(resultStr);
+                    //ShowMessageToUser(resultStr);
                 }
                     );
             }
@@ -850,7 +863,7 @@ namespace TheBank2.ViewModel
         #endregion
 
         #region РАЗНЫЕ МЕТОДЫ
-        private void SetRedBlockControl(Window wnd, string blockName)
+        private static void SetRedBlockControl(Window wnd, string blockName)
         {
             Control block = wnd.FindName(blockName) as Control;
             block.BorderBrush = Brushes.Red;
@@ -861,6 +874,22 @@ namespace TheBank2.ViewModel
             MessageView messageView = new(message);
             SetCenterPositionAndOpen(messageView);
         }
+
+        public void WriteToLog(string message)
+        {
+            string writePath = @"log.txt";
+            try
+            {
+                using (StreamWriter sw = new StreamWriter(writePath, true, System.Text.Encoding.Default))
+                {
+                    sw.WriteLine(message);
+                }
+            }
+            catch (Exception e)
+            {
+                MessageView messageView = new(e.Message);
+            }
+        }
         #endregion
 
         #region UPDATE VIEWS
@@ -870,6 +899,9 @@ namespace TheBank2.ViewModel
         /// </summary>
         private void SetNullValuesToProperties()
         {
+            //отписываемя от событий
+            DataWorker.Notify -= ShowMessageToUser;
+            DataWorker.Notify -= WriteToLog;
             //для пользователя
             UserName = null;
             UserSurName = null;
