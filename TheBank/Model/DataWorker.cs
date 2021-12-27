@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TheBank2.Data;
+using MyLib;
 
 namespace TheBank2.Model
 {

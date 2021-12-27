@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.IO;
+using MyLib;
 
 namespace TheBank2.ViewModel
 {
@@ -403,31 +404,44 @@ namespace TheBank2.ViewModel
             {
                 return addNewPosition ?? new RelayCommand(obj =>
                 {
-                    Window wnd = obj as Window;
-                    string resultStr = "";
-                    if (PositionName == null || PositionName.Replace(" ", "").Length == 0)
+                    try
                     {
-                        SetRedBlockControl(wnd, "NameBlock");
+                        Window wnd = obj as Window;
+                        string resultStr = "";
+                        if (PositionName == null || PositionName.Replace(" ", "").Length == 0)
+                        {
+                            SetRedBlockControl(wnd, "NameBlock");
+                        }
+                        if (PositionSalary <= 0)
+                        {
+                            throw new MyException("Неправильно заполнено поле 'Зарплата'", 1);
+                            //SetRedBlockControl(wnd, "SalaryBlock");
+                        }
+                        if (PositionMaxNumber <= 0)
+                        {
+                            throw new MyException("Неправильно заполнено поле 'Max number'", 2);
+                            //SetRedBlockControl(wnd, "MaxNumberBlock");
+                        }
+                        if (PositionDepartment == null)
+                        {
+                            MessageBox.Show("Укажите отдел");
+                        }
+                        else
+                        {
+                            resultStr = DataWorker.CreatePosition(PositionName, PositionSalary, PositionMaxNumber, PositionDepartment);
+                            UpdateAllDataView();
+                            ShowMessageToUser(resultStr);
+                            SetNullValuesToProperties();
+                            wnd.Close();
+                        }
                     }
-                    if (PositionSalary == 0)
+                    catch (MyException ex) when (ex.ErrorCode==1)
                     {
-                        SetRedBlockControl(wnd, "SalaryBlock");
+                        ShowMessageToUser(ex.Message);
                     }
-                    if (PositionMaxNumber == 0)
+                    catch (MyException ex) when (ex.ErrorCode == 2)
                     {
-                        SetRedBlockControl(wnd, "MaxNumberBlock");
-                    }
-                    if (PositionDepartment == null)
-                    {
-                        MessageBox.Show("Укажите отдел");
-                    }
-                    else
-                    {
-                        resultStr = DataWorker.CreatePosition(PositionName, PositionSalary, PositionMaxNumber, PositionDepartment);
-                        UpdateAllDataView();
-                        ShowMessageToUser(resultStr);
-                        SetNullValuesToProperties();
-                        wnd.Close();
+                        ShowMessageToUser(ex.Message);
                     }
                 }
                 );

@@ -1,10 +1,9 @@
 ﻿using System;
 
-namespace TheBank2.Model
+namespace MyLib
 {
     public class Person
     {
-
         /// <summary>
         /// Имя
         /// </summary>
