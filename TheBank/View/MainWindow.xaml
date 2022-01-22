@@ -9,7 +9,7 @@
     <Grid OpacityMask="#FF69C36E" Background="#FFBDF1A5">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="70"/>
         </Grid.RowDefinitions>
         <TabControl Name="TabCntrl"  Grid.Row="0" SelectedItem="{Binding SelectedTabItem}" Width="auto">
             <!-- вкладка вклады -->
@@ -170,7 +170,7 @@
             </TabItem>
             <!--Кнопки -->
         </TabControl>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="5,5,5,20">
             <Button Content="Новый депозит" Command="{Binding OpenAddNewDepositWnd}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,0,10,0" Background="#FF3EDE8E" FontFamily="Century Gothic" FontSize="20" BorderThickness="1,1,1,1">
                 <Button.Resources>
                     <Style TargetType="Border">
@@ -256,10 +256,54 @@
                     </Style>
                 </Button.Style>
             </Button>
+            <Button Content="Добавить 1к клиентов" Command="{Binding CreateClients}" Margin="10,0,10,0" Background="#FF3EDE8E" FontFamily="Century Gothic" FontSize="20">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+                <Button.Style>
+                    <Style>
+                        <Setter Property="Button.Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=TabCntrl, Path=SelectedItem.Tag}" Value="Clnts">
+                                <Setter Property="Button.Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button Content="Удалить лишних клиентов" Command="{Binding AnnihilateClients}" Margin="10,0,10,0" Background="#FF3EDE8E" FontFamily="Century Gothic" FontSize="20">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+                <Button.Style>
+                    <Style>
+                        <Setter Property="Button.Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=TabCntrl, Path=SelectedItem.Tag}" Value="Clnts">
+                                <Setter Property="Button.Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
         </StackPanel>
+        <ProgressBar HorizontalAlignment="Center" Height="10" Margin="0,60,0,0" Grid.Row="1" VerticalAlignment="Top" Width="800" RenderTransformOrigin="0.5,0.5">
+            <ProgressBar.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </ProgressBar.RenderTransform>
+        </ProgressBar>
 
     </Grid>
-    
+
 </Window>
     
     
