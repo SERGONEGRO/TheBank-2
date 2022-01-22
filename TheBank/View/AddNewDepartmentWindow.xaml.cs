@@ -6,7 +6,7 @@ namespace TheBank2.View
     /// <summary>
     /// Логика взаимодействия для AddDepartmentWindow.xaml
     /// </summary>
-    public partial class AddNewDepartmentWindow:Window
+    public partial class AddNewDepartmentWindow : Window
     {
         public AddNewDepartmentWindow()
         {

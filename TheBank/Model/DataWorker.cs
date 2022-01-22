@@ -6,7 +6,7 @@ using MyLib;
 
 namespace TheBank2.Model
 {
-    class DataWorker
+    internal class DataWorker
     {
         public delegate void DepositHandler(string message);
         public static event DepositHandler Notify;
@@ -102,6 +102,15 @@ namespace TheBank2.Model
             List<User<int>> users = (from user in GetAllUsers() where user.PositionId == Convert.ToInt32(id) select user).ToList();
             return users;
         }
+
+        public static List<Client<int>> GetAllClientsByName(string name)
+        {
+            using ApplicationContext db = new();
+            List<Client<int>> clients = (from client in GetAllClients() where client.Name.StartsWith("test") select client).ToList();
+            //from client in GetAllClients() where client.Name.StartsWith("test") delete client;
+            return clients;
+        }
+
         /// <summary>
         /// Получение позиций по id департамента
         /// </summary>
@@ -258,6 +267,37 @@ namespace TheBank2.Model
         }
 
         /// <summary>
+        /// Создать тестовых клиентов
+        /// </summary>
+        public static void CreateTestClients()
+        {
+            using ApplicationContext db = new();
+            Random rand = new Random();
+            for (int i = 0; i < 1000; i++)
+            {
+                Client<int> newClient = new()
+                {
+                    Name = "test" + rand.Next(1000000),
+                    SurName = "test" + rand.Next(1000000),
+                    Phone = rand.Next(1000000).ToString(),
+                    IsVIP = true,
+                    DateOfBirth = DateTime.Now
+                };
+                bool checkIsExist = db.Clients.Any(el => el.Name == newClient.Name && el.SurName == newClient.SurName);
+                if (!checkIsExist)
+                {
+                    db.Clients.Add(newClient);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    i--;
+                }
+            }
+
+        }
+
+        /// <summary>
         /// Создать депозит
         /// </summary>
         /// <param name="client"></param>
@@ -358,6 +398,26 @@ namespace TheBank2.Model
                 result = "Сделано! Клиент " + client.Name + "удален";
             }
             return result;
+        }
+
+        /// <summary>
+        /// Удалить клиентов тестовых
+        /// </summary>
+        public static void DeleteTestClients()
+        {
+            using ApplicationContext db = new();
+            foreach (Client<int> client in db.Clients)
+            {
+                if (client.Name.Length >=4)
+                {
+                    if (client.Name.Substring(0, 4) == "test")
+                    {
+                        db.Clients.Remove(client);
+                    }
+                }
+            }
+            //db.Clients.ToList().RemoveAll((x) => x.Name.Substring(0,4) == "test");
+            db.SaveChanges();
         }
 
         /// <summary>

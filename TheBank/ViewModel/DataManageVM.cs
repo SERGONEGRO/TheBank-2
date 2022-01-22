@@ -8,12 +8,14 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.IO;
 using MyLib;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace TheBank2.ViewModel
 {
     internal class DataManageVM : INotifyPropertyChanged
     {
-        
+
 
         #region СВОЙСТВА
         #region СВОЙСТВА ДЛЯ ДЕПАРТАМЕНТА
@@ -117,7 +119,7 @@ namespace TheBank2.ViewModel
             set
             {
                 allClients = value;
-                NotifyPropertyChanged("Client");
+                NotifyPropertyChanged(nameof(AllClients));
             }
         }
 
@@ -363,6 +365,28 @@ namespace TheBank2.ViewModel
         #endregion
 
         #region КОМАНДЫ ДОБАВЛЕНИЯ
+
+
+        /// <summary>
+        /// Добавление 1к клиентов
+        /// </summary>
+        private readonly RelayCommand createClients;
+
+        public RelayCommand CreateClients
+        {
+            get
+            {
+                return createClients ?? new RelayCommand(obj =>
+                {
+                    var a = new Action(DataWorker.CreateTestClients);
+                    var task = new Task(a);
+                    task.Start();
+                    UpdateAllDataView();           
+                    SetNullValuesToProperties();
+                    ShowMessageToUser("Добавлено");
+                });
+            }
+        }
 
         /// <summary>
         /// Добавление департамента
@@ -826,6 +850,33 @@ namespace TheBank2.ViewModel
         #endregion
 
         #region КОМАНДЫ УДАЛЕНИЯ
+
+        /// <summary>
+        /// удалить тестовых клиентов
+        /// </summary>
+        private readonly RelayCommand deleteTestClients;
+
+        public RelayCommand DeleteTestClients
+        {
+            get
+            {
+                return deleteTestClients ?? new RelayCommand(obj =>
+                {
+                    var a = new Action(DataWorker.DeleteTestClients);
+
+                    var task = new Task(a);
+
+                    task.Start();
+
+                    UpdateAllDataView();
+
+                    SetNullValuesToProperties();
+                    ShowMessageToUser("Удаление завершено");
+
+                });
+            }
+        }
+
         private RelayCommand deleteItem;
         public RelayCommand DeleteItem
         {
