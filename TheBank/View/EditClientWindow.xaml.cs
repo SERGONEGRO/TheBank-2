@@ -2,6 +2,7 @@
 using System.Windows;
 using TheBank2.Model;
 using TheBank2.ViewModel;
+using MyLib;
 
 namespace TheBank2.View
 {
