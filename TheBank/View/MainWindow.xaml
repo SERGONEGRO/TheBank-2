@@ -273,7 +273,7 @@
                     </Style>
                 </Button.Style>
             </Button>
-            <Button Content="Удалить тестовых клиентов" Command="{Binding DeleteTestClients}" Margin="10,0,10,0" Background="#FF3EDE8E" FontFamily="Century Gothic" FontSize="20">
+            <Button Content="Удалить тестовых клиентов" Command="{Binding DeleteClients}" Margin="10,0,10,0" Background="#FF3EDE8E" FontFamily="Century Gothic" FontSize="20">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="5"/>

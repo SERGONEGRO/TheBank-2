@@ -273,7 +273,7 @@ namespace TheBank2.Model
         {
             using ApplicationContext db = new();
             Random rand = new Random();
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 1000; i++)
             {
                 Client<int> newClient = new()
                 {

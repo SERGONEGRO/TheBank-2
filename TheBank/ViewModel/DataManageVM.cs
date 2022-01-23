@@ -378,13 +378,18 @@ namespace TheBank2.ViewModel
             {
                 return createClients ?? new RelayCommand(obj =>
                 {
+
+                    //CreateTestClients();
+
+                    Thread thread = new Thread(new ThreadStart(CreateTestClients));
+                    thread.Start();
+
                     //засовываем в таск общий метод, включающий обновление данных
                     //var a = new Action(CreateTestClients);
-                    var task = new Task(DataWorker.CreateTestClients);
-                    
+                    //var task = new Task(a);
                     //task.Start();
-                    await task;
-                    
+                   
+
                 });
             }
         }
@@ -863,6 +868,7 @@ namespace TheBank2.ViewModel
             {
                 return deleteClients ?? new RelayCommand(obj =>
                 {
+                    //DeleteTestClients();
                     var a = new Action(DeleteTestClients);
                     var task = new Task(a);
                     task.Start();
@@ -952,7 +958,7 @@ namespace TheBank2.ViewModel
         /// <summary>
         /// Метод для асинхронного добавления данных
         /// </summary>
-        public void CreateTestClients()
+        public async void CreateTestClients()
         {
             DataWorker.CreateTestClients();
             UpdateAllDataView();

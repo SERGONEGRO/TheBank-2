@@ -8,65 +8,38 @@ namespace Theme_16
     {
         static void Main(string[] args)
         {
-            PrintSomethingAsync();
-            //PrintSomethingAsync(50, "thread #2", 50);
-            //PrintSomethingAsync(100, "thread #3", 80);
+            Thread firstThead = new Thread(PrintSomething);
+            firstThead.Start();
 
+            Thread secondThead = new Thread(PrintSomething);
+            secondThead.Start();
+
+            Thread thirdThead = new Thread(PrintSomething);
+            thirdThead.Start();
         }
 
-        static async void PrintSomethingAsync(/*int delay, string message, int count*/)
-        {
-            Console.WriteLine("Начало метода PrintSomethingAsync");
-            //await Task.Run(() => PrintSomething(delay, message, count));
-            await Task.Run(() => PrintSomething());
-            Console.WriteLine("Конец метода PrintSomethingAsync");
-        }
+        //static async void PrintSomethingAsync()
+        //{
+        //    await Task.Run(() => PrintSomething());
+        //    Console.WriteLine("Конец метода PrintSomethingAsync");
+        //}
 
-        public static void PrintSomething()
+        static void PrintSomething()
         {
-            Console.WriteLine("хуй");
-            //for (int i = 0; i >= 100; i++)
-            //{
-                
-            //    Thread.Sleep(20);
-            //}
+            var th = Thread.CurrentThread;
+
+            Console.WriteLine($"Поток ID: {th.GetHashCode()} START");
+
+            for (int i = 0; i < 10; i++)
+            {
+                Console.WriteLine($"Hello from thread №{th.GetHashCode()}");
+                Thread.Sleep(100);
+            }
+
+            Console.WriteLine($"\nПоток: {th.Name}, ID: {th.GetHashCode()}. Конец работы");
+           
         }
     }
 
-    //class Program
-    //{
-    //    static void Factorial()
-    //    {
-    //        int result = 1;
-    //        for (int i = 1; i <= 6; i++)
-    //        {
-    //            result *= i;
-    //        }
-    //        Thread.Sleep(8000);
-    //        Console.WriteLine($"Факториал равен {result}");
-    //    }
-    //    // определение асинхронного метода
-    //    static async void FactorialAsync()
-    //    {
-    //        Console.WriteLine("Начало метода FactorialAsync"); // выполняется синхронно
-    //        await Task.Run(() => Factorial());                // выполняется асинхронно
-    //        Console.WriteLine("Конец метода FactorialAsync");
-    //    }
-
-    //    static void Main(string[] args)
-    //    {
-    //        FactorialAsync();   // вызов асинхронного метода
-
-    //        Console.WriteLine("Введите число: ");
-    //        int n = Int32.Parse(Console.ReadLine());
-    //        Console.WriteLine($"Квадрат числа равен {n * n}");
-
-    //        Console.Read();
-    //    }
-
-    //    public static void PrintSomething()
-    //    {
-    //        Console.WriteLine("");
-    //    }
-    //}
+    
 }
