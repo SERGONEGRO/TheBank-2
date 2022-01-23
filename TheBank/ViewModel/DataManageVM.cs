@@ -378,12 +378,13 @@ namespace TheBank2.ViewModel
             {
                 return createClients ?? new RelayCommand(obj =>
                 {
-                    var a = new Action(DataWorker.CreateTestClients);
-                    var task = new Task(a);
-                    task.Start();
-                    UpdateAllDataView();           
-                    SetNullValuesToProperties();
-                    ShowMessageToUser("Добавлено");
+                    //засовываем в таск общий метод, включающий обновление данных
+                    //var a = new Action(CreateTestClients);
+                    var task = new Task(DataWorker.CreateTestClients);
+                    
+                    //task.Start();
+                    await task;
+                    
                 });
             }
         }
@@ -854,25 +855,17 @@ namespace TheBank2.ViewModel
         /// <summary>
         /// удалить тестовых клиентов
         /// </summary>
-        private readonly RelayCommand deleteTestClients;
+        private readonly RelayCommand deleteClients;
 
-        public RelayCommand DeleteTestClients
+        public RelayCommand DeleteClients
         {
             get
             {
-                return deleteTestClients ?? new RelayCommand(obj =>
+                return deleteClients ?? new RelayCommand(obj =>
                 {
-                    var a = new Action(DataWorker.DeleteTestClients);
-
+                    var a = new Action(DeleteTestClients);
                     var task = new Task(a);
-
                     task.Start();
-
-                    UpdateAllDataView();
-
-                    SetNullValuesToProperties();
-                    ShowMessageToUser("Удаление завершено");
-
                 });
             }
         }
@@ -955,6 +948,26 @@ namespace TheBank2.ViewModel
                 MessageView messageView = new(e.Message);
             }
         }
+
+        /// <summary>
+        /// Метод для асинхронного добавления данных
+        /// </summary>
+        public void CreateTestClients()
+        {
+            DataWorker.CreateTestClients();
+            UpdateAllDataView();
+            SetNullValuesToProperties();
+            ShowMessageToUser("Добавлено");
+        }
+
+        public void DeleteTestClients()
+        {
+            DataWorker.DeleteTestClients();
+            UpdateAllDataView();
+            SetNullValuesToProperties();
+            ShowMessageToUser("Удаление завершено");
+        }
+
         #endregion
 
         #region UPDATE VIEWS

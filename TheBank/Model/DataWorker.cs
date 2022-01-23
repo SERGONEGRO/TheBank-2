@@ -269,11 +269,11 @@ namespace TheBank2.Model
         /// <summary>
         /// Создать тестовых клиентов
         /// </summary>
-        public static void CreateTestClients()
+        public static async void CreateTestClients()
         {
             using ApplicationContext db = new();
             Random rand = new Random();
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < 10; i++)
             {
                 Client<int> newClient = new()
                 {
@@ -287,14 +287,13 @@ namespace TheBank2.Model
                 if (!checkIsExist)
                 {
                     db.Clients.Add(newClient);
-                    db.SaveChanges();
                 }
                 else
                 {
                     i--;
                 }
             }
-
+            db.SaveChanges();
         }
 
         /// <summary>
