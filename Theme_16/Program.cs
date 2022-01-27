@@ -8,7 +8,7 @@ namespace Theme_16
     {
         static void Main(string[] args)
         {
-            Thread firstThead = new Thread(PrintSomething);
+            Thread firstThead = new(PrintSomething);
             firstThead.Start();
 
             Thread secondThead = new Thread(PrintSomething);

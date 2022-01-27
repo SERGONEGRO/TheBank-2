@@ -10,6 +10,7 @@ using System.IO;
 using MyLib;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace TheBank2.ViewModel
 {
@@ -381,18 +382,23 @@ namespace TheBank2.ViewModel
 
                     //CreateTestClients();
 
-                    Thread thread = new Thread(new ThreadStart(CreateTestClients));
+                    //
+                    Thread thread = new(new ThreadStart(CreateTestClients));
                     thread.Start();
+
+                    //Dispatcher dispatcher = new Dispatcher.(new ThreadStart(delegate { new DataManageVM().CreateTestClients(); }));
 
                     //засовываем в таск общий метод, включающий обновление данных
                     //var a = new Action(CreateTestClients);
                     //var task = new Task(a);
                     //task.Start();
-                   
 
+                    //CreateTestClients().Start();
                 });
             }
         }
+
+        
 
         /// <summary>
         /// Добавление департамента
@@ -868,7 +874,7 @@ namespace TheBank2.ViewModel
             {
                 return deleteClients ?? new RelayCommand(obj =>
                 {
-                    //DeleteTestClients();
+                    //DeleteTestClients().Start();
                     var a = new Action(DeleteTestClients);
                     var task = new Task(a);
                     task.Start();
@@ -956,9 +962,9 @@ namespace TheBank2.ViewModel
         }
 
         /// <summary>
-        /// Метод для асинхронного добавления данных
+        /// Task для асинхронного добавления данных
         /// </summary>
-        public async void CreateTestClients()
+        public void CreateTestClients()
         {
             DataWorker.CreateTestClients();
             UpdateAllDataView();
@@ -1016,7 +1022,7 @@ namespace TheBank2.ViewModel
             DepositSumToTransfer = 0;
             DestinationDeposit = null;
         }
-        private void UpdateAllDataView()
+        private async void UpdateAllDataView()
         {
             UpdateAllDepartmentsView();
             UpdateAllPositionsView();
@@ -1028,6 +1034,7 @@ namespace TheBank2.ViewModel
         private void UpdateAllDepartmentsView()
         {
             AllDepartments = DataWorker.GetAllDepartments();
+            //Dispatcher.Invoke(() => MainWindow.AllDepartmentsView.ItemsSource = null);
             MainWindow.AllDepartmentsView.ItemsSource = null;
             MainWindow.AllDepartmentsView.Items.Clear();
             MainWindow.AllDepartmentsView.ItemsSource = AllDepartments;
