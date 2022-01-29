@@ -367,39 +367,6 @@ namespace TheBank2.ViewModel
 
         #region КОМАНДЫ ДОБАВЛЕНИЯ
 
-
-        /// <summary>
-        /// Добавление 1к клиентов
-        /// </summary>
-        private readonly RelayCommand createClients;
-
-        public RelayCommand CreateClients
-        {
-            get
-            {
-                return createClients ?? new RelayCommand(obj =>
-                {
-
-                    //CreateTestClients();
-
-                    //
-                    Thread thread = new(new ThreadStart(CreateTestClients));
-                    thread.Start();
-
-                    //Dispatcher dispatcher = new Dispatcher.(new ThreadStart(delegate { new DataManageVM().CreateTestClients(); }));
-
-                    //засовываем в таск общий метод, включающий обновление данных
-                    //var a = new Action(CreateTestClients);
-                    //var task = new Task(a);
-                    //task.Start();
-
-                    //CreateTestClients().Start();
-                });
-            }
-        }
-
-        
-
         /// <summary>
         /// Добавление департамента
         /// </summary>
@@ -863,24 +830,7 @@ namespace TheBank2.ViewModel
 
         #region КОМАНДЫ УДАЛЕНИЯ
 
-        /// <summary>
-        /// удалить тестовых клиентов
-        /// </summary>
-        private readonly RelayCommand deleteClients;
-
-        public RelayCommand DeleteClients
-        {
-            get
-            {
-                return deleteClients ?? new RelayCommand(obj =>
-                {
-                    //DeleteTestClients().Start();
-                    var a = new Action(DeleteTestClients);
-                    var task = new Task(a);
-                    task.Start();
-                });
-            }
-        }
+        
 
         private RelayCommand deleteItem;
         public RelayCommand DeleteItem
@@ -961,24 +911,7 @@ namespace TheBank2.ViewModel
             }
         }
 
-        /// <summary>
-        /// Task для асинхронного добавления данных
-        /// </summary>
-        public void CreateTestClients()
-        {
-            DataWorker.CreateTestClients();
-            UpdateAllDataView();
-            SetNullValuesToProperties();
-            ShowMessageToUser("Добавлено");
-        }
-
-        public void DeleteTestClients()
-        {
-            DataWorker.DeleteTestClients();
-            UpdateAllDataView();
-            SetNullValuesToProperties();
-            ShowMessageToUser("Удаление завершено");
-        }
+       
 
         #endregion
 
@@ -1034,8 +967,9 @@ namespace TheBank2.ViewModel
         private void UpdateAllDepartmentsView()
         {
             AllDepartments = DataWorker.GetAllDepartments();
-            //Dispatcher.Invoke(() => MainWindow.AllDepartmentsView.ItemsSource = null);
+            
             MainWindow.AllDepartmentsView.ItemsSource = null;
+            
             MainWindow.AllDepartmentsView.Items.Clear();
             MainWindow.AllDepartmentsView.ItemsSource = AllDepartments;
             MainWindow.AllDepartmentsView.Items.Refresh();
@@ -1075,6 +1009,84 @@ namespace TheBank2.ViewModel
             MainWindow.AllDepositsView.Items.Clear();
             MainWindow.AllDepositsView.ItemsSource = AllDeposits;
             MainWindow.AllDepositsView.Items.Refresh();
+        }
+        #endregion
+
+        #region Асинхронность
+
+        /// <summary>
+        /// Добавление 1к клиентов
+        /// </summary>
+        private readonly RelayCommand createClients;
+
+        public RelayCommand CreateClients
+        {
+            get
+            {
+                return createClients ?? new RelayCommand(obj =>
+                {
+
+                    //CreateTestClientsAsync();
+
+                    Dispatcher.CurrentDispatcher.BeginInvoke(new ThreadStart(delegate { CreateTestClients(); }));
+
+                    //Thread thread = new(new ThreadStart(CreateTestClients));
+                    //thread.Start();
+
+                    //Dispatcher dispatcher = new Dispatcher.(new ThreadStart(delegate { new DataManageVM().CreateTestClients(); }));
+
+                    //засовываем в таск общий метод, включающий обновление данных
+                    //Action a = new(CreateTestClients);
+                    //Task task = new(a);
+                    //task.Start();
+
+                    //CreateTestClients().Start();
+                });
+            }
+        }
+
+        //public async void CreateTestClientsAsync()
+        //{
+        //    await Task.Run(() => CreateTestClients());
+        //}
+
+        /// <summary>
+        /// удалить тестовых клиентов
+        /// </summary>
+        private readonly RelayCommand deleteClients;
+
+        public RelayCommand DeleteClients
+        {
+            get
+            {
+                return deleteClients ?? new RelayCommand(obj =>
+                {
+                    Dispatcher.CurrentDispatcher.BeginInvoke(new ThreadStart(delegate { DeleteTestClients(); }));
+                    ////DeleteTestClients().Start();
+                    //var a = new Action(DeleteTestClients);
+                    //var task = new Task(a);
+                    //task.Start();
+                });
+            }
+        }
+
+        /// <summary>
+        /// Task для асинхронного добавления данных
+        /// </summary>
+        public void CreateTestClients()
+        {
+            DataWorker.CreateTestClients();
+            UpdateAllDataView();
+            SetNullValuesToProperties();
+            ShowMessageToUser("Добавлено");
+        }
+
+        public void DeleteTestClients()
+        {
+            DataWorker.DeleteTestClients();
+            UpdateAllDataView();
+            SetNullValuesToProperties();
+            ShowMessageToUser("Удаление завершено");
         }
         #endregion
 
